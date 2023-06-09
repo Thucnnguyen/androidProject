@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    tools:context=".Login">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="207dp"
+        android:fontFamily="sans-serif-black"
+        android:paddingStart="20dp"
+        android:paddingTop="90dp"
+        android:text="Hello there, WelcomeBack"
+        android:textSize="40sp"
+        android:layout_marginBottom="60dp"
+        android:layout_marginTop="50dp"
+        />
+
+    <EditText
+        android:id="@+id/username"
+        style="@style/text_input"
+        android:hint="UserName"
+        android:inputType="text"
+        android:textColor="@color/black"
+        android:layout_marginBottom="10dp"
+        />
+
+    <EditText
+        android:id="@+id/pass"
+        style="@style/text_input"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="10dp"
+
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/login_button"
+        style="@style/button"
+        android:background="@drawable/button_background"
+        android:text="Log in"
+        android:textColor="#000" />
+
+    <LinearLayout style="@style/layout_text"
+        android:layout_marginTop="30dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forgot your login account?"
+            android:textColor="#000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  Get help signing"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        style="@style/layout_margin_start_end_20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            style="@style/line"
+            android:layout_toStartOf="@id/ortxt"
+            android:background="#000" />
+
+        <TextView
+            android:id="@+id/ortxt"
+            style="@style/layout_margin_start_end_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="OR"
+            android:textColor="#000" />
+
+        <View
+            style="@style/line"
+            android:layout_toEndOf="@id/ortxt"
+            android:background="#000" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+
+        style="@style/layout_text_logo">
+
+        <ImageView style="@style/gg_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Login with Google"
+            android:textColor="#000"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/layout_bottom"
+        android:background="#19FFFFFF">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account?"
+            android:textColor="#000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Sign Up."
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</LinearLayout>
+
+

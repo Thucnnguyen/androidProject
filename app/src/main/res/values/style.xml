@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="layout_margin_start_end_20">
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+    </style>
+    <style name="layout_margin_start_end_5">
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+    </style>
+    <style name="text_input">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:background">@drawable/round_back_white</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:textColorHint">#000</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">55dp</item>
+    </style>
+
+    <style name="line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+    <style name="text_or">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:text">Or</item>
+        <item name="android:textColor">#6BFFFFFF</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+    </style>
+    <style name="insta_image">
+        <item name="android:layout_width">350dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginStart">45dp</item>
+        <item name="android:layout_marginTop">130dp</item>
+        <item name="android:src">@drawable/instagram_logo</item>
+    </style>
+    <style name="image_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">250dp</item>
+    </style>
+
+    <style name="body_layout">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">240dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="button" parent="@style/layout_margin_start_end_20">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">55dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+    </style>
+    <style name="layout_bottom">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_marginTop">90dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="gg_icon">
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:src">@drawable/icons8_google</item>
+    </style>
+    <style name="layout_text">
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="layout_text_logo">
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+</resources>
