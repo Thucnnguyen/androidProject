@@ -13,13 +13,13 @@
         android:theme="@style/Theme.Instagram"
         tools:targetApi="31">
         <activity
-            android:name=".ProductDetailActivity"
+            android:name=".Login"
             android:exported="false" />
         <activity
             android:name=".HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".ProductDetailActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,5 +28,5 @@
             </intent-filter>
         </activity>
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
