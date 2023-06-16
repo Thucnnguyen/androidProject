@@ -23,7 +23,6 @@ public class HomeActivity extends AppCompatActivity {
              data = getIntent().getStringExtra("name");
         }
         Toast.makeText(HomeActivity.this,data,Toast.LENGTH_SHORT).show();
-//        TextView textView = (TextView) findViewById(R.id.textView);
         Button button = (Button) findViewById(R.id.logout_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,7 +31,6 @@ public class HomeActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("isLogin",false);
                 editor.apply();
-
                 Intent intent = new Intent(HomeActivity.this,Login.class);
                 startActivity(intent);
                 finish();

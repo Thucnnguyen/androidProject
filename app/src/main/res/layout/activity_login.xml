@@ -7,43 +7,76 @@
     android:background="#fff"
     android:orientation="vertical"
     tools:context=".Login">
+    <ImageView
+        android:layout_width="170dp"
+        android:layout_height="152dp"
+        android:transitionName="logo_image"
+        android:id="@+id/img_logo"
+        android:src="@drawable/applogo"/>
 
     <TextView
+        android:id="@+id/text_logo"
         android:layout_width="wrap_content"
-        android:layout_height="207dp"
+        android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
         android:paddingStart="20dp"
-        android:paddingTop="90dp"
+        android:paddingTop="20dp"
         android:text="Hello there, WelcomeBack"
+        android:textColor="#000"
         android:textSize="40sp"
+        android:transitionName="logo_text"
+
+        />
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign in to continue"
+        android:textSize="22sp"
+        android:paddingStart="20dp"
+        android:transitionName="logo_desc"
         android:layout_marginBottom="60dp"
-        android:layout_marginTop="50dp"
         />
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:transitionName="input_layout"
+        android:orientation="vertical"
+        android:id="@+id/layout"
+        >
+        <EditText
+            android:id="@+id/username"
+            style="@style/text_input"
+            android:hint="UserName"
+            android:inputType="text"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="10dp"
+            />
 
-    <EditText
-        android:id="@+id/username"
-        style="@style/text_input"
-        android:hint="UserName"
-        android:inputType="text"
-        android:textColor="@color/black"
-        android:layout_marginBottom="10dp"
-        />
+        <EditText
+            android:id="@+id/pass"
+            style="@style/text_input"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/black"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
 
-    <EditText
-        android:id="@+id/pass"
-        style="@style/text_input"
-        android:layout_marginTop="15dp"
-        android:textColor="@color/black"
-        android:layout_marginBottom="10dp"
+            android:hint="Password"
+            android:inputType="textPassword" />
 
-        android:hint="Password"
-        android:inputType="textPassword" />
 
+    </androidx.appcompat.widget.LinearLayoutCompat>
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/login_button"
         style="@style/button"
         android:background="@drawable/button_background"
         android:text="Log in"
+        android:transitionName="go_button"
+
         android:textColor="#000" />
 
     <LinearLayout style="@style/layout_text"
@@ -116,6 +149,7 @@
             android:textColor="#000" />
 
         <TextView
+            android:id="@+id/sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"

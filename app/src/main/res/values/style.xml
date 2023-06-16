@@ -14,13 +14,13 @@
         <item name="android:maxLines">1</item>
         <item name="android:paddingStart">20dp</item>
         <item name="android:paddingEnd">20dp</item>
-        <item name="android:layout_marginStart">20dp</item>
-        <item name="android:layout_marginEnd">20dp</item>
         <item name="android:textColorHint">#000</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">55dp</item>
     </style>
-
+    <style name="CustomOutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeWidth">3dp</item> <!-- Adjust the width as desired -->
+    </style>
     <style name="line">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.5dp</item>
@@ -56,12 +56,12 @@
     <style name="button" parent="@style/layout_margin_start_end_20">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">55dp</item>
-        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_marginTop">5dp</item>
     </style>
     <style name="layout_bottom">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">60dp</item>
-        <item name="android:layout_marginTop">90dp</item>
+        <item name="android:layout_marginTop">40dp</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:gravity">center</item>
     </style>
