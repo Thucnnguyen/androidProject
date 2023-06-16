@@ -12,3 +12,5 @@ Show a notification if Cart has products when opening the application
 Map screen: show Store’s location
 Chat screen: customers can chat with Store
 ![image](https://github.com/Thucnnguyen/androidProject/assets/129487650/527e6a28-406c-46fd-a8ef-4c293cea0226)
+
+![Database](https://github.com/Thucnnguyen/androidProject/assets/129487650/d5f7cf51-06b8-4169-9ca5-60d0c5cba737)
