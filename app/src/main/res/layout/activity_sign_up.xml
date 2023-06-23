@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignUp"
-    android:orientation="vertical"
     android:background="#fff"
-    android:padding="20dp"
-    >
-
+    android:padding="20dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <ImageView
         android:layout_width="170dp"
         android:layout_height="152dp"
@@ -49,28 +50,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/full_name"
+            android:outlineAmbientShadowColor="@color/black"
             style="@style/CustomOutlinedBox"
             >
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="FullName"
-
                 />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/CustomOutlinedBox"
-            android:id="@+id/username"
-            app:counterEnabled="true"
-            app:counterMaxLength="20"
+            android:id="@+id/password"
+            app:passwordToggleEnabled="true"
             >
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="UserName"
-                 />
+                android:hint="Password"
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -99,19 +100,7 @@
                  />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/CustomOutlinedBox"
-            android:id="@+id/password"
-            app:passwordToggleEnabled="true"
-            >
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Password"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -125,23 +114,24 @@
                  />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
+
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/sign_up_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/sign_up_button"
-        android:text="Go"
-        android:transitionName="go_button"
         android:background="#000"
+        android:onClick="registerUser"
+        android:text="Go"
         android:textColor="#fff"
-        />
+        android:transitionName="go_button" />
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/back_login_button"
         android:transitionName="go_button"
-        android:text="Already haave a account? Login"
+        android:text="Already have a account? Login"
         android:background="#fff"
         android:textColor="#000"
         />
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

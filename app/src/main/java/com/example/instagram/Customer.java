@@ -3,6 +3,7 @@ package com.example.instagram;
 public class Customer {
     private String name;
     private String email;
+
     private String phone;
     private String address;
     private String password;
@@ -11,6 +12,8 @@ public class Customer {
     public Customer() {
     }
 
+
+
     public Customer(String name, String email, String phone, String address, String password, String id) {
         this.name = name;
         this.email = email;
@@ -18,6 +21,13 @@ public class Customer {
         this.address = address;
         this.password = password;
         this.id = id;
+    }
+    public Customer(String name, String email, String phone, String address, String password) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.password = password;
     }
 
     public String getName() {
