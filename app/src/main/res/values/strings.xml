@@ -24,4 +24,10 @@
         item
     </string>
     <string name="clientId">411144258407-6mp8rv85its2bsd7qmt0vn90u276kp6r.apps.googleusercontent.com</string>
+    <string name="title_activity_product_list">ProductList</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 </resources>
