@@ -3,12 +3,20 @@ package com.example.instagram;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -55,9 +63,9 @@ public class Login extends AppCompatActivity {
                 Toasty.info(Login.this, mess).show();
             }
         }
-
         setContentView(R.layout.activity_login);
         Button button = (Button) findViewById(R.id.login_button);
+        final int lightGrayColor = getResources().getColor(R.color.light_gray);
         TextView signUp = (TextView) findViewById(R.id.sign_up);
         EditText userName = (EditText) findViewById(R.id.username);
         EditText password = (EditText) findViewById(R.id.pass);
@@ -70,6 +78,15 @@ public class Login extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ObjectAnimator colorAnimator = ObjectAnimator.ofInt(
+                        button,
+                        "backgroundColor",
+                        Color.TRANSPARENT,
+                        lightGrayColor
+                        );
+                colorAnimator.setDuration(200);
+                colorAnimator.setEvaluator(new ArgbEvaluator());
+                colorAnimator.start();
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
                         .addConverterFactory(GsonConverterFactory.create())

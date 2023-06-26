@@ -7,9 +7,6 @@ public class Product {
     private String desciption;
     private String image;
     private int id;
-//    private int cate_id;
-
-
 
     public Product() {
     }
