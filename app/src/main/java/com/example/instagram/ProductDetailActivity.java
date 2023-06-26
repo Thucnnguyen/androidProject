@@ -21,6 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ProductDetailActivity extends AppCompatActivity {
 
     // test get product id to show product detail
+<<<<<<< HEAD
     int testProduct_id = 2;
     // test get product id to show product detail
     ImageView imageProductDetail;
@@ -28,13 +29,27 @@ public class ProductDetailActivity extends AppCompatActivity {
     TextView productPriceTextView;
     TextView productDescriptionTextView;
     private void getProductDetail() {
+=======
+    int productId;
+    // test get product id to show product detail
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_product_detail);
+
+        ImageView imageProductDetail = findViewById(R.id.imageView7);
+        TextView productNameTextView = findViewById(R.id.textView11);
+        TextView productPriceTextView = findViewById(R.id.textView12);
+        TextView productDescriptionTextView = findViewById(R.id.textView13);
+        productId =getIntent().getIntExtra("productId", -1);
+>>>>>>> 66f10f0f3203c863e83e0518d982fcf268c5914f
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiService apiService = retrofit.create(ApiService.class);
 
-        Call<Product> call = apiService.getProductById(testProduct_id);
+        Call<Product> call = apiService.getProductById(productId);
 
         Log.d("API Request", "URL: " + call.request().url());
 
