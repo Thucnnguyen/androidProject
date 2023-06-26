@@ -22,6 +22,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ProductDetailActivity extends AppCompatActivity {
 
     // test get product id to show product detail
+<<<<<<< HEAD
+    int testProduct_id = 2;
+    // test get product id to show product detail
+    ImageView imageProductDetail;
+    TextView productNameTextView;
+    TextView productPriceTextView;
+    TextView productDescriptionTextView;
+    private void getProductDetail() {
+=======
     int productId;
     // test get product id to show product detail
 
@@ -69,6 +78,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 
         productId =getIntent().getIntExtra("productId", -1);
+>>>>>>> 66f10f0f3203c863e83e0518d982fcf268c5914f
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -86,12 +96,16 @@ public class ProductDetailActivity extends AppCompatActivity {
                     Product product = response.body();
                     if (product != null) {
                         // Set the product data in the views
-                        Picasso.get().load(product.getImage()).into(imageProductDetail);
+
                         productNameTextView.setText(product.getName());
-                        productPriceTextView.setText("$ " + product.getPrice());
+                        productPriceTextView.setText(String.valueOf(product.getPrice()));
                         productDescriptionTextView.setText(product.getDesciption());
+<<<<<<< HEAD
 
                         Log.d("test", productDescriptionTextView.getText().toString());
+=======
+                        Picasso.get().load(product.getImage()).into(imageProductDetail);
+>>>>>>> 667beec1719ca0cd92df9820e8c50fe5a1a4b27e
                     }
                 } else {
                     // Product retrieval failed, handle the failure
@@ -105,5 +119,51 @@ public class ProductDetailActivity extends AppCompatActivity {
                 Toast.makeText(ProductDetailActivity.this, "Failed to retrieve product", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_product_detail);
+
+         imageProductDetail = findViewById(R.id.imageView7);
+         productNameTextView = findViewById(R.id.textView11);
+         productPriceTextView = findViewById(R.id.textView12);
+         productDescriptionTextView = findViewById(R.id.textView13);
+        getProductDetail();
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//        ApiService apiService = retrofit.create(ApiService.class);
+//
+//        Call<Product> call = apiService.getProductById(testProduct_id);
+//
+//        Log.d("API Request", "URL: " + call.request().url());
+//
+//        call.enqueue(new Callback<Product>() {
+//            @Override
+//            public void onResponse(Call<Product> call, Response<Product> response) {
+//                if (response.isSuccessful()) {
+//                    Product product = response.body();
+//                    if (product != null) {
+//                        // Set the product data in the views
+//
+//                        productNameTextView.setText(product.getName());
+//                        productPriceTextView.setText(String.valueOf(product.getPrice()));
+//                        productDescriptionTextView.setText(product.getDesciption());
+//                        Picasso.get().load(product.getImage()).into(imageProductDetail);
+//                    }
+//                } else {
+//                    // Product retrieval failed, handle the failure
+//                    Toast.makeText(ProductDetailActivity.this, "Failed to retrieve product", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Product> call, Throwable t) {
+//                // Handle failure
+//                Toast.makeText(ProductDetailActivity.this, "Failed to retrieve product", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 }
