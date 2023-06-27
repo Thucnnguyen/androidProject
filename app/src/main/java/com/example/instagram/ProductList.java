@@ -6,6 +6,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.widget.Toolbar;
@@ -21,6 +22,12 @@ import com.example.instagram.databinding.ActivityProductListBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProductList extends AppCompatActivity {
 
@@ -38,30 +45,42 @@ public class ProductList extends AppCompatActivity {
         GridLayoutManager grid = new GridLayoutManager(this, 3);
         rvItem.setLayoutManager(grid);
 
-        adapter.setData(getListItem());
+        getListItem();
         rvItem.setAdapter(adapter);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
 
-    private List<Product> getListItem() {
-        List<Product> list = new ArrayList<>();
-        list.add(new Product("Card item 1",0,0,null,null,1));
-        list.add(new Product("Card item 2",0,0,null,null,2));
-        list.add(new Product("Card item 3",0,0,null,null,3));
-        list.add(new Product("Card item 4",0,0,null,null,4));
+    private void getListItem() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ApiService apiService = retrofit.create(ApiService.class);
 
-        list.add(new Product("Card item 5",0,0,null,null,5));
-        list.add(new Product("Card item 6",0,0,null,null,6));
-        list.add(new Product("Card item 7",0,0,null,null,7));
-        list.add(new Product("Card item 8",0,0,null,null,8));
+        Call<List<Product>> call = apiService.getAllProduct();
 
-        list.add(new Product("Card item 9",0,0,null,null,9));
-        list.add(new Product("Card item 10",0,0,null,null,10));
-        list.add(new Product("Card item 11",0,0,null,null,11));
-        list.add(new Product("Card item 12",0,0,null,null,12));
+        call.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if (response.isSuccessful()) {
+                    List<Product> products = response.body();
+                    if (products != null) {
+                        adapter.setData(products);  // Update the adapter's data
+                        adapter.notifyDataSetChanged();
+                    }
+                } else {
+                    // Product retrieval failed, handle the failure
+                    // ...
+                }
+            }
 
-        return list;
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+
+            }
+        });
+
     }
 
 //    @Override

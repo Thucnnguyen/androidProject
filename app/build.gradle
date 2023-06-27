@@ -6,13 +6,14 @@ android {
     namespace 'com.example.instagram'
     compileSdk 33
 
+
     defaultConfig {
         applicationId "com.example.instagram"
         minSdk 19
         targetSdk 33
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
+        multiDexEnabled = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -50,6 +51,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.google.android.gms:play-services-tasks:18.0.2'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

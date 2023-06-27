@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="20dp"
+    >
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="10dp"
+        android:weightSum="10"
+
+        android:outlineSpotShadowColor="@color/black">
+
+
+        <ImageView
+            android:id="@+id/ivProduct"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_launcher_foreground"
+            android:fadingEdge="horizontal"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="10sp">
+            s
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textStyle="bold"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/tvPriceQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Price" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="right">
+            <ImageButton
+                android:id="@+id/btnMinusOne"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/white"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_minus" />
+            <TextView
+                android:id="@+id/tvQuantity"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:layout_gravity="center"
+                android:textAlignment="center"/>
+            <ImageButton
+                android:id="@+id/btnAddOne"
+                android:backgroundTint="@color/white"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_plus" />
+        </LinearLayout>
+
+
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.cardview.widget.CardView>

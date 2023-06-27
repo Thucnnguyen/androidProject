@@ -50,6 +50,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordLi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ProductDetailActivity.class);
+                intent.putExtra("productId", item.getId());
                 mContext.startActivity(intent);
             }
         });

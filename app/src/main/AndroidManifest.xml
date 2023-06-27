@@ -17,27 +17,40 @@
         android:theme="@style/Theme.Instagram"
         tools:targetApi="31">
         <activity
+            android:name=".activity_cartlist"
+            android:exported="false" />
+        <activity
+            android:name=".PaymentActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProductList"
-            android:exported="true" >
+            android:exported="false">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".SignUp"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Login"
+            android:exported="false"></activity>
+        <activity
+            android:name=".ProductDetailActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".SignUp"
-            android:exported="false"></activity>
-        <activity
-            android:name=".HomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Login"
-            android:exported="false">
-        </activity>
-        <activity
-            android:name=".ProductDetailActivity"
-            android:exported="false"></activity>
     </application>
 
 </manifest>
