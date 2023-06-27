@@ -51,7 +51,7 @@ public class Login extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         boolean isLogin = sharedPreferences.getBoolean("isLogin", false);
         if (isLogin) {
-            Intent intent = new Intent(Login.this, HomeActivity.class);
+            Intent intent = new Intent(Login.this, ProductList.class);
             intent.putExtra("name", "MyAdmin");
             startActivity(intent);
             finish();
@@ -242,7 +242,7 @@ public class Login extends AppCompatActivity {
         editor.putInt("customerId", id);
         editor.apply();
 
-        Intent intent = new Intent(Login.this, HomeActivity.class);
+        Intent intent = new Intent(Login.this, ProductList.class);
         intent.putExtra("name", name);
         startActivity(intent);
         finish();
