@@ -69,16 +69,12 @@ public class activity_cartlist extends AppCompatActivity {
     }
     public void Init() {
 
-        Call call = apiService.getAllProduct();
+        Call call = apiService.getAllProducts();
 
-        call.enqueue(new Callback<List<Product>>() {
+        call.enqueue(new Callback<Product[]>() {
             @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-                if (response.isSuccessful()) {
-                    List<Product> products = response.body();
-
-                }
-
+            public void onResponse(Call<Product[]> call, Response<Product[]> response) {
+                    Collections.addAll(products, response.body());
                 cartAdapter = new CartAdapter(context, cart_items, products);
 
                 rvCarts = findViewById(R.id.rcv);
@@ -89,7 +85,7 @@ public class activity_cartlist extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<Product>> call, Throwable t) {
+            public void onFailure(Call<Product[]> call, Throwable t) {
                 String body = t.getMessage();
             }
         });

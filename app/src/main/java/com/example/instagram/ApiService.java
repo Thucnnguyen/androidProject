@@ -23,6 +23,8 @@ public interface ApiService {
 
     @GET("products")
     Call<List<Product>> getAllProduct();
+    @GET("products")
+    Call<Product[]> getAllProducts();
     @GET("Cart/{id}")
     Call<Cart> getCart(@Body String id);
     @GET("Cart_items")
