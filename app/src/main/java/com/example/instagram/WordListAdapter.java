@@ -2,7 +2,6 @@ package com.example.instagram;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.instagram.model.Product;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -42,13 +45,14 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordLi
         if (item == null) {
             return;
         }
-
-        holder.imgItem.setImageResource(R.drawable.card);
-        holder.tvItem.setText(item.getName());
+        Picasso.get().load(item.getImage()).into(holder.imgItem);
+        holder.name.setText(item.getName());
+        holder.price.setText(String.valueOf(item.getPrice()));
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ProductDetailActivity.class);
+                intent.putExtra("productId", item.getId());
                 mContext.startActivity(intent);
             }
         });
@@ -67,15 +71,18 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordLi
 
 
     public class WordListViewHolder extends RecyclerView.ViewHolder{
-        private CardView card;
+        private ConstraintLayout card;
         private ImageView imgItem;
-        private TextView tvItem;
+        private TextView name;
+        private TextView price;
+
 
         public WordListViewHolder(@NonNull View itemView){
             super(itemView);
 
-            imgItem = itemView.findViewById(R.id.img_user);
-            tvItem = itemView.findViewById(R.id.item);
+            imgItem = itemView.findViewById(R.id.imageView6);
+            name = itemView.findViewById(R.id.name);
+            price = itemView.findViewById(R.id.price);
             card =itemView.findViewById(R.id.card_view);
         }
     }

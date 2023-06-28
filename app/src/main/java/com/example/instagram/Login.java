@@ -9,19 +9,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.instagram.model.Customer;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -32,7 +28,6 @@ import com.google.android.gms.tasks.Task;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -240,6 +235,8 @@ public class Login extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("isLogin", true);
         editor.putInt("customerId", id);
+        editor.putString("name", name);
+
         editor.apply();
 
         Intent intent = new Intent(Login.this, ProductList.class);
@@ -249,7 +246,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void loginFailed() {
-        Toast.makeText(Login.this, "Login failed", Toast.LENGTH_SHORT).show();
+        Toasty.error(Login.this, "Login failed", Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -22,6 +22,7 @@
     <string name="image_view_item_transform_content_description">Represents an image view in the
         item
     </string>
+    <string name="title_activity_payment">PaymentActivity</string>
     <string name="clientId">411144258407-6mp8rv85its2bsd7qmt0vn90u276kp6r.apps.googleusercontent.com</string>
     <string name="title_activity_product_list">ProductList</string>
     <!-- Strings used for fragments for navigation -->

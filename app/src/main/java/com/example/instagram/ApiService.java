@@ -1,8 +1,10 @@
 package com.example.instagram;
 
+import com.example.instagram.model.Customer;
+import com.example.instagram.model.Product;
+
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -21,4 +23,7 @@ public interface ApiService {
 
     @GET("products")
     Call<List<Product>> getAllProduct();
+
+    @GET("products")
+    Call<List<Product>> searchProductByName(@Query("name") String searchText);
 }
