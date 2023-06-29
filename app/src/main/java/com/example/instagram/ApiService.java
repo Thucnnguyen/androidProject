@@ -15,6 +15,8 @@ import retrofit2.http.Query;
 public interface ApiService {
     @GET("Customer")
     Call<List<Customer>> getCustomer();
+    @GET("Customer/{id}")
+    Call<Customer> getCustomerById(@Path("id") int id);
     @POST("Customer")
     Call<Customer> register(@Body Customer customer);
 
