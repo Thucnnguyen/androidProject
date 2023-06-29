@@ -13,8 +13,6 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -114,7 +112,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 startActivity(intent);
              activity_cartlist a = new activity_cartlist();
               Product prod = new Product();
-               a.AddToCart(productId, 1);
+               a.AddToCart(productId);
             }
         });
     }

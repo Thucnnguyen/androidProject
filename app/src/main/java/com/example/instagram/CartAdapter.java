@@ -55,18 +55,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.tvQuantity.setText(cart.getQuantity() * product.getPrice() + "");
 
 
-//        holder.btnAddOne.setOnClickListener(v -> {
-//            context.AddToCart(cart.productId);
-//        });
-//
-//        holder.btnMinusOne.setOnClickListener(v -> {
-//            context.RemoveFromCart(cart, 1);
-//        });
-//
-//        holder.btnMinusOne.setOnLongClickListener(v -> {
-//            context.RemoveFromCart(cart, 9999);
-//            return true;
-//        });
+        holder.btnAddOne.setOnClickListener(v -> {
+            context.AddToCart(cart.getProductID());
+        });
+
+        holder.btnMinusOne.setOnClickListener(v -> {
+            context.RemoveFromCart(cart, 1);
+        });
+
+        holder.btnMinusOne.setOnLongClickListener(v -> {
+            context.RemoveFromCart(cart, 9999);
+            return true;
+        });
     }
 
     @Override
