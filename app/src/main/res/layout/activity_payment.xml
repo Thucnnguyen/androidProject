@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -31,8 +31,8 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/editTextUserName"
+        <TextView
+            android:id="@+id/textViewUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/textViewUserInfo"
@@ -43,14 +43,24 @@
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/editTextEmail"
+        <TextView
+            android:id="@+id/textViewPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/editTextUserName"
+            android:layout_below="@id/textViewUserName"
             android:layout_marginTop="8dp"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
+            android:hint="Phone"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/textViewAddr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewPhone"
+            android:layout_marginTop="8dp"
+            android:hint="Address"
             android:maxLines="1"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
@@ -60,97 +70,48 @@
             android:id="@+id/textViewProductDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/editTextEmail"
+            android:layout_below="@id/textViewAddr"
             android:layout_marginTop="24dp"
             android:text="Product Details"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <!-- Product 1 -->
+        <!-- Product -->
         <RelativeLayout
-            android:id="@+id/relativeLayoutProduct1"
+            android:id="@+id/relativeLayoutProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/textViewProductDetails"
             android:layout_marginTop="8dp">
 
-            <ImageView
-                android:id="@+id/imageViewProduct1"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/prod"
-                android:layout_alignParentStart="true" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewProducts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
 
             <TextView
-                android:id="@+id/textViewProduct1Name"
-                android:layout_width="wrap_content"
+                android:id="@+id/textViewTotalPrice"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/imageViewProduct1"
-                android:layout_marginStart="16dp"
-                android:text="Product 1"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:text="Total Price: $0.00"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_below="@id/recyclerViewProducts"
+                android:layout_marginTop="16dp" />
 
-            <TextView
-                android:id="@+id/textViewProduct1Price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/imageViewProduct1"
-                android:layout_below="@id/textViewProduct1Name"
-                android:layout_marginStart="16dp"
-                android:text="Price: $19.99"
-                android:textColor="@android:color/black"
-                android:textSize="14sp" />
-
-        </RelativeLayout>
-
-        <!-- Product 2 -->
-        <RelativeLayout
-            android:id="@+id/relativeLayoutProduct2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/relativeLayoutProduct1"
-            android:layout_marginTop="8dp">
-
-            <ImageView
-                android:id="@+id/imageViewProduct2"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/prod"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:id="@+id/textViewProduct2Name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/imageViewProduct2"
-                android:layout_marginStart="16dp"
-                android:text="Product 2"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/textViewProduct2Price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/imageViewProduct2"
-                android:layout_below="@id/textViewProduct2Name"
-                android:layout_marginStart="16dp"
-                android:text="Price: $29.99"
-                android:textColor="@android:color/black"
-                android:textSize="14sp" />
 
         </RelativeLayout>
 
         <!-- Payment Method -->
         <LinearLayout
             android:id="@+id/linearLayoutPaymentMethod"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/relativeLayoutProduct2"
+            android:layout_below="@id/relativeLayoutProduct"
+            android:layout_marginTop="20dp"
             android:orientation="vertical">
-
 
             <TextView
                 android:id="@+id/textViewPaymentMethodTitle"
@@ -167,151 +128,55 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- Credit Card -->
-                <LinearLayout
-                    android:id="@+id/linearlayoutCreditCard"
+                <!-- Momo -->
+                <RadioButton
+                    android:id="@+id/radioButtonCreditCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="10dp">
+                    android:textAlignment="center"
+                    android:text="Momo"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black">
 
-                    <RadioButton
-                        android:id="@+id/radioButtonCreditCard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="Credit Card"
-                        android:textSize="16sp"
-                        android:textColor="@android:color/black" />
-
-                    <ImageView
-                        android:id="@+id/imageViewCreditCard"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/credit_card"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="0dp"/>
-
-                </LinearLayout>
-
-                <!-- PayPal -->
-                <LinearLayout
-                    android:id="@+id/linearlayoutPayPal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="10dp">
-
-                    <RadioButton
-                        android:id="@+id/radioButtonPayPal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="PayPal"
-                        android:textSize="16sp"
-                        android:textColor="@android:color/black" />
-
-                    <ImageView
-                        android:id="@+id/imageViewPayPal"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/paypalpng"
-                        android:layout_marginStart="20dp" />
-
-                </LinearLayout>
+                </RadioButton>
 
                 <!-- Ship COD -->
-                <LinearLayout
-                    android:id="@+id/linearlayoutGooglePay"
+                <RadioButton
+                    android:id="@+id/radioButtonGooglePay"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <RadioButton
-                        android:id="@+id/radioButtonGooglePay"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="Ship COD"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                    <ImageView
-                        android:id="@+id/imageViewGooglePay"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="-10dp"
-                        android:src="@drawable/shipcod" />
-
-                </LinearLayout>
-
+                    android:layout_height="wrap_content"
+                    android:text="Ship COD"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:drawablePadding="8dp" />
             </RadioGroup>
+
         </LinearLayout>
 
-        <!-- Card Details (Visible when Credit Card is selected) -->
+        <!-- Second Half - Payment Method Images -->
         <LinearLayout
-            android:id="@+id/linearLayoutCardDetails"
-            android:layout_width="match_parent"
+            android:id="@+id/linearImagePaymentMethod"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/linearLayoutPaymentMethod"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_below="@id/relativeLayoutProduct"
+            android:layout_toRightOf="@id/linearLayoutPaymentMethod"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textViewCardDetailsTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Card Details"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/imageViewMomo"
+                android:layout_width="50dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/momo" />
+            <ImageView
+                android:id="@+id/imageViewShipCod"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/shipcod" />
 
-            <EditText
-                android:id="@+id/editTextCardNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:hint="Card Number"
-                android:inputType="number"
-                android:maxLines="1"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
-
-            <LinearLayout
-                android:id="@+id/linearLayoutExpiryCVV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/editTextExpiryDate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="Expiry Date"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/darker_gray" />
-
-                <EditText
-                    android:id="@+id/editTextCVV"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="CVV"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
         </LinearLayout>
 
         <!-- Payment Button -->
@@ -319,7 +184,7 @@
             android:id="@+id/buttonPay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/linearLayoutCardDetails"
+            android:layout_below="@id/linearLayoutPaymentMethod"
             android:layout_marginTop="32dp"
             android:text="Pay"
             android:textColor="@android:color/white"
@@ -334,4 +199,4 @@
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
