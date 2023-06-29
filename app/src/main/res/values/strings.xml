@@ -30,4 +30,17 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="profile_image_description">Description</string>
+    <string name="profile_name">User 1</string>
+    <string name="profile_email">User1email@gmail.com</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="logout">Logout</string>
+    <string name="label_email">Email: </string>
+    <string name="label_address">Address: </string>
+    <string name="label_name">Name: </string>
+    <string name="label_phone">Phone: </string>
+    <string name="profile_phone">0123 456 789</string>
+    <string name="profile_address">8113 Creekbend Dr Houston, Texas(TX), 77071</string>
+            <string name="title_activity_profile">Profile</string>
+    <string name="edit_confirm">CONFIRM</string>
 </resources>

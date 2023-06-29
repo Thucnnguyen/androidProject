@@ -2,9 +2,11 @@ package com.example.instagram;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +32,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
-
+        Button addToCart = findViewById(R.id.button2);
         ImageView imageProductDetail = findViewById(R.id.imageView7);
         TextView productNameTextView = findViewById(R.id.textView11);
         TextView productPriceTextView = findViewById(R.id.textView12);
@@ -103,6 +105,16 @@ public class ProductDetailActivity extends AppCompatActivity {
             public void onFailure(Call<Product> call, Throwable t) {
                 // Handle failure
                 Toast.makeText(ProductDetailActivity.this, "Failed to retrieve product", Toast.LENGTH_SHORT).show();
+            }
+        });
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProductDetailActivity.this, activity_cartlist.class);
+                startActivity(intent);
+//             activity_cartlist a = new activity_cartlist();
+//              Product prod = new Product();
+//               a.AddToCart(1);
             }
         });
     }

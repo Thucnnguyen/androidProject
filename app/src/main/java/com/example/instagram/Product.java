@@ -1,6 +1,8 @@
 package com.example.instagram;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     private String name;
     private int categoryId;
     private float price;
