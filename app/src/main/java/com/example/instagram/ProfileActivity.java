@@ -33,15 +33,12 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_user_profile);
-//
-//        Customer customer = new Customer("User 123", "User1@gmail.com", "010101010101", "8113 Creekbend Dr Houston, Texas(TX), 77071", "String password", "String id");
-
 
         btnReturn = (Button) findViewById(R.id.profile_return);
         btnEdit = (Button) findViewById(R.id.edit_profile);
         btnLogout = (Button) findViewById(R.id.logout_button);
 
-        int customerId = getIntent().getIntExtra("id", 1);
+        String customerId = "1";
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
@@ -70,7 +67,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Customer> call, Throwable t) {
                 // Handle failure
-                Toast.makeText(ProfileActivity.this, "Failed to retrieve product", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, "Failed to retrieve customer information", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -83,6 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
 //                bundle.putSerializable("customer", (Serializable) customer);
 //                intent.putExtras(bundle);
                 startActivity(intent);
+//                onBackPressed();
                 finish();
             }
         });
@@ -94,7 +92,6 @@ public class ProfileActivity extends AppCompatActivity {
 //                bundle.putSerializable("customer", (Serializable) customer);
 //                intent.putExtras(bundle);
                 startActivity(intent);
-                finish();
             }
         });
 
