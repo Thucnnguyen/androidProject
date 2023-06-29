@@ -6,17 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.bumptech.glide.Glide;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private Context context;
-    private ArrayList<Product> productList;
+    private List<Product> productList;
 
-    public ProductAdapter(Context context, ArrayList<Product> productList) {
+    public ProductAdapter(Context context, List<Product> productList) {
         this.context = context;
         this.productList = productList;
     }
@@ -34,7 +37,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Product product = productList.get(position);
         holder.textViewName.setText(product.getName());
         holder.textViewPrice.setText("$" + product.getPrice());
-        holder.imageViewProduct.setImageResource(Integer.parseInt(product.getImage()));
+        // Load the image URI into imageViewProduct using Glide
+        Glide.with(holder.itemView.getContext())
+                .load(product.getImage())
+                .into(holder.imageViewProduct);
     }
 
     @Override
