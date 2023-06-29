@@ -16,10 +16,11 @@ public interface ApiService {
     @GET("Customer")
     Call<List<Customer>> getCustomer();
     @GET("Customer/{id}")
-    Call<Customer> getCustomerById(@Path("id") int id);
+    Call<Customer> getCustomerById(@Path("id") String id);
     @POST("Customer")
     Call<Customer> register(@Body Customer customer);
-
+    @PUT("Customer/{id}")
+    Call<Customer> update(@Body Customer customer, @Path("id") String id);
     @GET("products/{id}")
     Call<Product> getProductById(@Path("id") int productId);
 
@@ -32,9 +33,11 @@ public interface ApiService {
     @GET("Cart_items")
     Call<Cart_items[]> getCartItems();
 
-    @POST("Cart_items")
-    Call<Cart_items> addCartItems(@Query("ProductID") int ProductID,
-                                  @Query("Quantity") int Quantity);
+//    @POST("Cart_items")
+//    Call<Cart_items> addCartItems(@Query("ProductID") int ProductID,
+//                                  @Query("Quantity") int Quantity);
+     @POST("Cart_items")
+        Call<Cart_items> addCartItems(@Body Cart_items cartItem);
 
 
     @PUT("Cart_items")

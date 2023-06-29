@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -91,8 +90,13 @@ public class activity_cartlist extends AppCompatActivity {
         });
 
     }
-    public void AddToCart(int productID) {
-        apiService.addCartItems(productID, 1).enqueue(new Callback<Cart_items>() {
+    public void AddToCart(int productID, int quantity) {
+        Customer customer = new Customer();
+        String customerId = "customerId 2";
+        int id = 1;
+
+        Cart_items cart_items1 = new Cart_items(id,productID, quantity, customerId);
+        apiService.addCartItems(cart_items1).enqueue(new Callback<Cart_items>() {
             @Override
             public void onResponse(Call<Cart_items> call, Response<Cart_items> response) {
                 try {
@@ -110,7 +114,7 @@ public class activity_cartlist extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Cart_items> call, Throwable t) {
-
+                toast("failed");
             }
         });
 
