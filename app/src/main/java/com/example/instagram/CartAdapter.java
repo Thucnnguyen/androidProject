@@ -23,6 +23,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public  ArrayList<Product> products;
     public ArrayList<Cart_items> cartItemList;
     public activity_cartlist context;
+    int quantity;
 
     public CartAdapter(activity_cartlist context, ArrayList<Cart_items> cartItemList, ArrayList<Product> products) {
         this.context = context;
@@ -56,7 +57,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
 
         holder.btnAddOne.setOnClickListener(v -> {
-            context.AddToCart(cart.getProductID());
+            context.AddToCart(cart.getProductID(), quantity++);
         });
 
         holder.btnMinusOne.setOnClickListener(v -> {

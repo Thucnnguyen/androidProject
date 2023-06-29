@@ -112,7 +112,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 startActivity(intent);
              activity_cartlist a = new activity_cartlist();
               Product prod = new Product();
-               a.AddToCart(productId);
+               a.AddToCart(productId, quantity);
             }
         });
     }
