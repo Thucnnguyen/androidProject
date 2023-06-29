@@ -41,7 +41,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Product product = null;
+        Product product = new Product();
 
         Cart_items cart = cartItemList.get(position);
 
