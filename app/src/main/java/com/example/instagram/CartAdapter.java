@@ -24,6 +24,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public ArrayList<Cart_items> cartItemList;
     public activity_cartlist context;
 
+
     public CartAdapter(activity_cartlist context, ArrayList<Cart_items> cartItemList, ArrayList<Product> products) {
         this.context = context;
         this.cartItemList = cartItemList;
@@ -45,6 +46,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         Cart_items cart = cartItemList.get(position);
 
+
         for (Product p :products){
             if (p.getId() == cart.getProductID())
                 product = p;
@@ -52,22 +54,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         new DownloadImageTask(holder.ivProduct).execute(product.getImage());
         holder.tvName.setText(product.getName());
         holder.tvPrice.setText("Price : " + product.getPrice() * cart.getQuantity() + "$");
-        holder.tvQuantity.setText(cart.getQuantity() * product.getPrice() + "");
+        holder.tvQuantity.setText(cart.getQuantity() * product.getPrice()+"");
 
 
         holder.btnAddOne.setOnClickListener(v -> {
-
             context.AddToCart(cart.getProductID(), cart.getQuantity());
         });
 
         holder.btnMinusOne.setOnClickListener(v -> {
-            context.RemoveFromCart(cart, 1);
+
         });
 
-        holder.btnMinusOne.setOnLongClickListener(v -> {
-            context.RemoveFromCart(cart, 9999);
-            return true;
-        });
+//        holder.btnMinusOne.setOnLongClickListener(v -> {
+//            context.RemoveFromCart(cart, 9999);
+//            return true;
+//        });
     }
 
     @Override
