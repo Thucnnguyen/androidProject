@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,52 +32,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PaymentActivity extends AppCompatActivity {
     private RecyclerView recyclerViewProducts;
-    private TextView textViewTotalPrice;
+    private TextView textViewTotalPrice, textViewCustName, textViewCustPhone, textviewCustAddr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
 
+        textViewCustName = findViewById(R.id.textViewUserName);
+        textViewCustPhone = findViewById(R.id.textViewPhone);
+        textviewCustAddr = findViewById(R.id.textViewAddr);
         recyclerViewProducts = findViewById(R.id.recyclerViewProducts);
         textViewTotalPrice = findViewById(R.id.textViewTotalPrice);
-//
-//        // Create a TrustManager that trusts all certificates
-//        TrustManager[] trustAllCerts = new TrustManager[] {
-//                new X509TrustManager() {
-//                    @Override
-//                    public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
-//
-//                    @Override
-//                    public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
-//
-//                    @Override
-//                    public X509Certificate[] getAcceptedIssuers() {
-//                        return new X509Certificate[0];
-//                    }
-//                }
-//        };
-//
-//    // Create an SSLContext and initialize it with the TrustManager
-//        SSLContext sslContext;
-//        try {
-//            sslContext = SSLContext.getInstance("TLS");
-//            sslContext.init(null, trustAllCerts, new SecureRandom());
-//        } catch (NoSuchAlgorithmException | KeyManagementException e) {
-//            e.printStackTrace();
-//            // Handle SSLContext initialization error
-//            return;
-//        }
-//
-//    // Set the custom SSLContext to be used by the HttpsURLConnection or networking library
-//        HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-//
-//        // Create OkHttpClient with certificate pinning
-//        OkHttpClient client = new OkHttpClient.Builder()
-//                .certificatePinner(new CertificatePinner.Builder()
-//                        .add("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/", "sha256/abcdefghijklmnopqrstuvwxyz1234567890=")
-//                        .build())
-//                .build();
 
 
         // Retrofit initialization
@@ -88,21 +55,44 @@ public class PaymentActivity extends AppCompatActivity {
         // Create an instance of the API service
         ApiService apiService = retrofit.create(ApiService.class);
         // Call the API endpoint
-        Call<List<Product>> call = apiService.getAllProduct();
+        Call call = apiService.getCartItems();
 
         // Execute the API call asynchronously
-        call.enqueue(new Callback<List<Product>>() {
+        call.enqueue(new Callback<Cart_items[]>() {
             @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+            public void onResponse(Call<Cart_items[]> call, Response<Cart_items[]> response) {
                 if (response.isSuccessful()) {
-                    List<Product> products = response.body();
+
+                    Cart_items[] items = response.body();
+                    List<Product> products = new ArrayList<Product>() ;
+                    for(int i = 0; i < items.length;i++) {
+                        Call productCall = apiService.getProductById(items[i].getProductID());
+
+                        productCall.enqueue(new Callback<Product>() {
+                            @Override
+                            public void onResponse(Call<Product> call, Response<Product> response) {
+                                if (response.isSuccessful()) {
+                                    Product product = response.body();
+                                    products.add(product);
+                                    Toast.makeText(PaymentActivity.this,product.getName(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Product> call, Throwable t) {
+                                Log.d("CREATION", "onFailure: " + t.getMessage());
+                                Toast.makeText(PaymentActivity.this, t.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+
                     // Process the retrieved products here
                     // Create a LinearLayoutManager with the desired orientation
                     LinearLayoutManager layoutManager = new LinearLayoutManager(PaymentActivity.this, LinearLayoutManager.VERTICAL, false);
                     recyclerViewProducts.setLayoutManager(layoutManager);
 
                     // Set the adapter for the RecyclerView
-                    ProductAdapter adapter = new ProductAdapter(PaymentActivity.this, products);
+                    ProductAdapter adapter = new ProductAdapter(PaymentActivity.this, products, items);
                     recyclerViewProducts.setAdapter(adapter);
 
                     // Calculate the total price
@@ -115,12 +105,36 @@ public class PaymentActivity extends AppCompatActivity {
                     Toast.makeText(PaymentActivity.this, "Failed to retrieve products", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
-            public void onFailure(Call<List<Product>> call, Throwable t) {
+            public void onFailure(Call<Cart_items[]> call, Throwable t) {
                 // Handle network errors or API call failures
                 Toast.makeText(PaymentActivity.this, "Network error", Toast.LENGTH_SHORT).show();
                 Toast.makeText(PaymentActivity.this, t.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+        //Get Customer Info
+        String customerId = "1";
+
+        call = apiService.getCustomerById(customerId);
+
+        call.enqueue(new Callback<Customer>() {
+            @Override
+            public void onResponse(Call<Customer> call, Response<Customer> response) {
+                if (response.isSuccessful()) {
+                    Customer customer = response.body();
+                    if (customer != null) {
+                        BindingData(customer);
+                    }
+                } else {
+                    // Product retrieval failed, handle the failure
+                    Toast.makeText(PaymentActivity.this, "Failed to retrieve customer information", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Customer> call, Throwable t) {
+                // Handle failure
+                Toast.makeText(PaymentActivity.this, "Failed to retrieve product", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -134,4 +148,13 @@ public class PaymentActivity extends AppCompatActivity {
 
         return totalPrice;
     }
+
+    private void BindingData(Customer cus){
+
+        textViewCustName.setText(cus.getName());
+        textviewCustAddr.setText(cus.getAddress());
+        textViewCustPhone.setText(cus.getPhone());
+    }
+
+
 }

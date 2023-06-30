@@ -35,7 +35,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         TextView productNameTextView = findViewById(R.id.textView11);
         TextView productPriceTextView = findViewById(R.id.textView12);
         TextView productDescriptionTextView = findViewById(R.id.textView13);
-         TextView quantityTextView = findViewById(R.id.quantity);
+        TextView quantityTextView = findViewById(R.id.quantity);
         ImageView plusImageView = findViewById(R.id.plusQuantity);
         ImageView minusImageView = findViewById(R.id.imageView8);
 

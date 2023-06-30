@@ -18,10 +18,12 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private Context context;
     private List<Product> productList;
+    private Cart_items[] items;
 
-    public ProductAdapter(Context context, List<Product> productList) {
+    public ProductAdapter(Context context, List<Product> productList, Cart_items[] items) {
         this.context = context;
         this.productList = productList;
+        this.items = items;
     }
 
     @NonNull
@@ -34,9 +36,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        Product product = productList.get(position);
+        Cart_items item = items[position];
+        Product product = productList.get(item.getProductID());
         holder.textViewName.setText(product.getName());
         holder.textViewPrice.setText("$" + product.getPrice());
+        holder.textViewPrice.setText("x" + item.getQuantity());
         // Load the image URI into imageViewProduct using Glide
         Glide.with(holder.itemView.getContext())
                 .load(product.getImage())
