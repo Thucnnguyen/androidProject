@@ -5,10 +5,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.example.instagram.model.Customer;
+import com.example.instagram.model.Product;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,8 +23,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class activity_cartlist extends AppCompatActivity {
     public static activity_cartlist context;
+    Customer customer = new Customer();
 
-    public ArrayList<Product> products = new ArrayList<>();
+    public List<Product> products = new ArrayList<>();
 
     Toast toast;
     CartAdapter cartAdapter;
@@ -47,55 +53,56 @@ public class activity_cartlist extends AppCompatActivity {
 
     public void GetCart() {
 
-        Call call = apiService.getCartItems();
+        Call<List<Cart_items>> call = apiService.getCartItems();
 
-        call.enqueue(new Callback<Cart_items[]>() {
+        call.enqueue(new Callback<List<Cart_items>>() {
             @Override
-            public void onResponse(Call<Cart_items[]> call, Response<Cart_items[]> response) {
-                cart_items.clear();
-                Collections.addAll(cart_items, response.body());
+            public void onResponse(Call<List<Cart_items>> call, Response<List<Cart_items>> response) {
+//                Collections.addAll(cart_items, response.body());
+                List<Cart_items> cartItems= response.body();
+                if(response.isSuccessful()){
+                    cart_items = new ArrayList<>(cartItems);
+                }
 //                    CaclulateTotal();
-
                 cartAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(Call<Cart_items[]> call, Throwable t) {
+            public void onFailure(Call<List<Cart_items>> call, Throwable t) {
 
             }
         });
 
     }
     public void Init() {
+        rvCarts = findViewById(R.id.rcv);
+        rvCarts.setLayoutManager(new LinearLayoutManager(this));
+        cartAdapter = new CartAdapter(context, cart_items, products);
+        rvCarts.setAdapter(cartAdapter);
+        Call call = apiService.getAllProduct();
 
-        Call call = apiService.getAllProducts();
-
-        call.enqueue(new Callback<Product[]>() {
+        call.enqueue(new Callback<List<Product>>() {
             @Override
-            public void onResponse(Call<Product[]> call, Response<Product[]> response) {
-                    Collections.addAll(products, response.body());
-                cartAdapter = new CartAdapter(context, cart_items, products);
-
-                rvCarts = findViewById(R.id.rcv);
-                rvCarts.setAdapter(cartAdapter);
-                rvCarts.setLayoutManager(new LinearLayoutManager(context));
-
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+//                    Collections.addAll(products, response.body());
+                products.clear();
+                products.addAll(response.body());
+                Log.d("data", products.toString());
+                cartAdapter.notifyDataSetChanged();
                 GetCart();
             }
 
             @Override
-            public void onFailure(Call<Product[]> call, Throwable t) {
+            public void onFailure(Call<List<Product>> call, Throwable t) {
                 String body = t.getMessage();
             }
         });
 
     }
     public void AddToCart(int productID, int quantity) {
-        Customer customer = new Customer();
-        String customerId = "customerId 2";
+        String customerId = customer.getId();
         int id = 1;
-
-        Cart_items cart_items1 = new Cart_items(id,productID, quantity, customerId);
+        Cart_items cart_items1 = new Cart_items(customerId,productID,quantity,id);
         apiService.addCartItems(cart_items1).enqueue(new Callback<Cart_items>() {
             @Override
             public void onResponse(Call<Cart_items> call, Response<Cart_items> response) {
@@ -114,7 +121,7 @@ public class activity_cartlist extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Cart_items> call, Throwable t) {
-                toast("failed");
+
             }
         });
 

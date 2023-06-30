@@ -24,6 +24,10 @@ import okhttp3.OkHttpClient;
 
 
 import android.widget.Toast;
+
+import com.example.instagram.model.Customer;
+import com.example.instagram.model.Product;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,7 +42,6 @@ public class PaymentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
-
         textViewCustName = findViewById(R.id.textViewUserName);
         textViewCustPhone = findViewById(R.id.textViewPhone);
         textviewCustAddr = findViewById(R.id.textViewAddr);

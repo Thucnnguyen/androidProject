@@ -1,5 +1,9 @@
 package com.example.instagram;
 
+import com.example.instagram.model.Cart;
+import com.example.instagram.model.Customer;
+import com.example.instagram.model.Product;
+
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -17,28 +21,32 @@ public interface ApiService {
     Call<List<Customer>> getCustomer();
     @GET("Customer/{id}")
     Call<Customer> getCustomerById(@Path("id") String id);
-    @POST("Customer")
-    Call<Customer> register(@Body Customer customer);
     @PUT("Customer/{id}")
     Call<Customer> update(@Body Customer customer, @Path("id") String id);
+    @POST("Customer")
+    Call<Customer> register(@Body Customer customer);
+
     @GET("products/{id}")
     Call<Product> getProductById(@Path("id") int productId);
 
     @GET("products")
     Call<List<Product>> getAllProduct();
+
+
     @GET("products")
-    Call<Product[]> getAllProducts();
+    Call<List<Product>> searchProductByName(@Query("name") String searchText);
+
+
     @GET("Cart/{id}")
     Call<Cart> getCart(@Body String id);
     @GET("Cart_items")
-    Call<Cart_items[]> getCartItems();
+    Call<List<Cart_items>> getCartItems();
 
-//    @POST("Cart_items")
-//    Call<Cart_items> addCartItems(@Query("ProductID") int ProductID,
-//                                  @Query("Quantity") int Quantity);
-     @POST("Cart_items")
-        Call<Cart_items> addCartItems(@Body Cart_items cartItem);
+    @PUT("Cart_items/{id}")
+    Call<ResponseBody> updateCartItems(@Path("id")int cartId, @Body Cart_items cart_items);
 
+    @POST("Cart_items")
+    Call<Cart_items> addCartItems(@Body Cart_items cart_items);
 
     @PUT("Cart_items")
     Call<Cart_items> updateCartItems(@Query("ProductID") int ProductID,
@@ -47,4 +55,5 @@ public interface ApiService {
     @DELETE("Cart_items")
 
     Call<Void> deleteCartItems(@Query("ProductID") int ProductID);
+
 }

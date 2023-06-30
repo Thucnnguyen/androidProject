@@ -1,36 +1,41 @@
 package com.example.instagram;
 
 public class Cart_items {
-    private String customerId;
+    private int customerId;
+    private String CustomerID;
     private int ProductID;
     private int Quantity;
     private int id;
 
-    public Cart_items(int productID, int quantity, int id, String cartID) {
+    public Cart_items() {
     }
 
-    public Cart_items(String customerId, int productID, int quantity, int id) {
-        customerId = customerId;
+
+    public Cart_items(String customerID, int productID, int quantity, int id) {
+        CustomerID = customerID;
         ProductID = productID;
         Quantity = quantity;
         this.id = id;
     }
-
-    public Cart_items(int productID, int quantity, String cartID) {
-    }
-
-    public Cart_items(String customerId, int productID, int quantity) {
-        customerId = customerId;
+    public Cart_items(int CustomerId, int productID, int quantity) {
+        customerId = CustomerId;
         ProductID = productID;
         Quantity = quantity;
     }
 
-    public String getCartID() {
+    public int getCustomerId() {
         return customerId;
     }
 
-    public void setCartID(String cartID) {
-        customerId = customerId;
+    public void setCustomerId(int cartID) {
+        customerId = cartID;
+    }
+    public String getCartID() {
+        return CustomerID;
+    }
+
+    public void setCartID(String customerID) {
+        CustomerID = customerID;
     }
 
     public int getProductID() {

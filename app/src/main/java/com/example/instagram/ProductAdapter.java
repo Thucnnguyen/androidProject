@@ -6,7 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.bumptech.glide.Glide;
+//import com.bumptech.glide.Glide;
+import com.example.instagram.model.Product;
 
 
 import androidx.annotation.NonNull;
@@ -42,9 +43,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.textViewPrice.setText("$" + product.getPrice());
         holder.textViewPrice.setText("x" + item.getQuantity());
         // Load the image URI into imageViewProduct using Glide
-        Glide.with(holder.itemView.getContext())
+        /*Glide.with(holder.itemView.getContext())
                 .load(product.getImage())
-                .into(holder.imageViewProduct);
+                .into(holder.imageViewProduct);*/
     }
 
     @Override
