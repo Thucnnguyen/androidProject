@@ -31,8 +31,7 @@ public interface ApiService {
     Call<Cart_items[]> getCartItems();
 
     @POST("Cart_items")
-    Call<Cart_items> addCartItems(@Query("ProductID") int ProductID,
-                                  @Query("Quantity") int Quantity);
+    Call<Cart_items> addCartItems(@Body Cart_items cart_items);
 
 
     @PUT("Cart_items")
