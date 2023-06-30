@@ -2,6 +2,7 @@ package com.example.instagram;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +28,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private Button btnReturn, btnLogout, btnEdit;
     private TextView txtName, txtEmail, txtAddress, txtPhone;
+    private String customerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +36,20 @@ public class ProfileActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_user_profile);
 
-        btnReturn = (Button) findViewById(R.id.profile_return);
-        btnEdit = (Button) findViewById(R.id.edit_profile);
-        btnLogout = (Button) findViewById(R.id.logout_button);
+        btnReturn = findViewById(R.id.profile_return);
+        btnEdit = findViewById(R.id.edit_profile);
+        btnLogout = findViewById(R.id.logout_button);
 
-        String customerId = "1";
+        customerId = "1";
+//        SharedPreferences sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
+//        customerId = sharedPreferences.getString("customerId","0");
+//
+//        if (customerId == "0") {
+//            Intent intent = new Intent(ProfileActivity.this, Login.class);
+//            startActivity(intent);
+//            finish();
+//            return;
+//        }
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
@@ -106,10 +117,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void BindingData(Customer cus){
-        txtName = (TextView) findViewById(R.id.profile_name);
-        txtEmail = (TextView) findViewById(R.id.profile_email);
-        txtAddress = (TextView) findViewById(R.id.profile_address);
-        txtPhone = (TextView) findViewById(R.id.profile_phone);
+        txtName = findViewById(R.id.profile_name);
+        txtEmail = findViewById(R.id.profile_email);
+        txtAddress = findViewById(R.id.profile_address);
+        txtPhone = findViewById(R.id.profile_phone);
 
         txtName.setText(cus.getName());
         txtEmail.setText(cus.getEmail());
