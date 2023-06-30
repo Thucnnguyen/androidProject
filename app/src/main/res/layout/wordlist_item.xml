@@ -9,6 +9,7 @@
     android:background="@drawable/card_background">
 
 
+
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="105dp"
@@ -69,3 +70,4 @@
         app:layout_constraintStart_toStartOf="@+id/imageView6"
         app:layout_constraintTop_toBottomOf="@+id/price" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+

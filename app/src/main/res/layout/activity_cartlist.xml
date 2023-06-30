@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".model.Cart">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        android:layout_margin="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:textSize="30sp"
+                android:id="@+id/orderSummary"
+                android:text="YOUR CART"/>
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_below="@+id/orderSummary"
+                android:id="@+id/rcv"
+                android:text="@string/app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_centerInParent="true"
+                android:text="Check Out"
+                android:textColor="@android:color/white"
+                android:background="@android:color/holo_red_dark"
+                android:id="@+id/checkout"
+                android:layout_alignParentBottom="true"/>
+
+            <Button
+                android:id="@+id/clearthedatabase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="-21dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_toEndOf="@+id/checkout"
+                android:background="@android:color/holo_red_dark"
+                android:text="Clear Cart"
+                android:textColor="@android:color/white" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

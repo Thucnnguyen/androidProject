@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 import androidx.annotation.NonNull;
@@ -105,6 +107,28 @@ public class ProductList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getListItem(searchText.getText().toString());
+            }
+        });
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.home) {
+
+                    return true;
+                } else if (item.getItemId() == R.id.history) {
+                    // Handle History item click
+                    return true;
+                } else if (item.getItemId() == R.id.person) {
+                    // Handle Profile item click
+                    return true;
+                } else if (item.getItemId() == R.id.cart) {
+                    // Handle Cart item click
+                    Intent intent = new Intent(ProductList.this, activity_cartlist.class);
+                    startActivity(intent);
+                    return true;
+                }
+                return false;
             }
         });
     }
