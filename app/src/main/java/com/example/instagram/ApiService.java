@@ -43,6 +43,7 @@ public interface ApiService {
 
     @POST("Cart_items")
     Call<Cart_items> addCartItems(@Body Cart_items cart_items);
+
     @PUT("Cart_items")
     Call<Cart_items> updateCartItems(@Query("ProductID") int ProductID,
                                      @Query("Quantity") int Quantity);

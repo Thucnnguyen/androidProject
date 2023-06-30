@@ -20,6 +20,7 @@ import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 import okhttp3.ResponseBody;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -126,42 +127,42 @@ public class ProductDetailActivity extends AppCompatActivity {
                 call.enqueue(new Callback<List<Cart_items>>() {
                     @Override
                     public void onResponse(Call<List<Cart_items>> call, Response<List<Cart_items>> response) {
-                        if(response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             List<Cart_items> items = response.body();
                             Cart_items searchCart = null;
-                            if(items!=null){
-                                for (Cart_items c: items
+                            if (items != null) {
+                                for (Cart_items c : items
                                 ) {
-                                    if(c.getProductID() == productId || c.getCustomerId() == cusId){
+                                    if (c.getProductID() == productId || c.getCustomerId() == cusId) {
                                         searchCart = c;
                                     }
                                 }
                             }
-                            if(searchCart!=null){
-                                searchCart.setQuantity(searchCart.getQuantity()+1);
-                                Call<ResponseBody> updateCart = apiService.updateCartItems(productId,searchCart);
+                            if (searchCart != null) {
+                                searchCart.setQuantity(searchCart.getQuantity() + 1);
+                                Call<ResponseBody> updateCart = apiService.updateCartItems(productId, searchCart);
                                 updateCart.enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        if(response.isSuccessful()){
-                                            Toasty.info(ProductDetailActivity.this ,"Add Success", Toast.LENGTH_SHORT).show();
+                                        if (response.isSuccessful()) {
+                                            Toasty.info(ProductDetailActivity.this, "Add Success", Toast.LENGTH_SHORT).show();
                                             startActivity(intent);
                                         }
                                     }
 
                                     @Override
                                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        Toasty.info(ProductDetailActivity.this ,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                        Toasty.info(ProductDetailActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
 
                                     }
                                 });
-                            }else{
-                                Call<Cart_items> add = apiService.addCartItems(new Cart_items(cusId,productId,1));
+                            } else {
+                                Call<Cart_items> add = apiService.addCartItems(new Cart_items(cusId, productId, 1));
                                 add.enqueue(new Callback<Cart_items>() {
                                     @Override
                                     public void onResponse(Call<Cart_items> call, Response<Cart_items> response) {
-                                        if(response.isSuccessful()){
-                                            Toasty.info(ProductDetailActivity.this ,"Add Success", Toast.LENGTH_SHORT).show();
+                                        if (response.isSuccessful()) {
+                                            Toasty.info(ProductDetailActivity.this, "Add Success", Toast.LENGTH_SHORT).show();
                                             startActivity(intent);
 
                                         }
@@ -169,7 +170,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onFailure(Call<Cart_items> call, Throwable t) {
-                                        Toasty.info(ProductDetailActivity.this ,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                        Toasty.info(ProductDetailActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
 
                                     }
                                 });
@@ -179,10 +180,14 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<List<Cart_items>> call, Throwable t) {
-                        Toasty.info(ProductDetailActivity.this ,t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toasty.info(ProductDetailActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 });
+                startActivity(intent);
+                activity_cartlist a = new activity_cartlist();
+                Product prod = new Product();
+                a.AddToCart(productId, quantity);
             }
         });
     }

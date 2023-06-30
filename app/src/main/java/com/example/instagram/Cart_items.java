@@ -2,6 +2,7 @@ package com.example.instagram;
 
 public class Cart_items {
     private int customerId;
+    private String CustomerID;
     private int ProductID;
     private int Quantity;
     private int id;
@@ -9,8 +10,9 @@ public class Cart_items {
     public Cart_items() {
     }
 
-    public Cart_items(int CustomerId, int productID, int quantity, int id) {
-        customerId = CustomerId;
+
+    public Cart_items(String customerID, int productID, int quantity, int id) {
+        CustomerID = customerID;
         ProductID = productID;
         Quantity = quantity;
         this.id = id;
@@ -27,6 +29,13 @@ public class Cart_items {
 
     public void setCustomerId(int cartID) {
         customerId = cartID;
+    }
+    public String getCartID() {
+        return CustomerID;
+    }
+
+    public void setCartID(String customerID) {
+        CustomerID = customerID;
     }
 
     public int getProductID() {
