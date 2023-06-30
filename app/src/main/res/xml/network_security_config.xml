@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config>
+        <!-- Add your network security configurations here -->
+        <!-- For example, allow cleartext traffic for testing purposes -->
+        <cleartextTrafficPermitted>true</cleartextTrafficPermitted>
+    </base-config>
+</network-security-config>

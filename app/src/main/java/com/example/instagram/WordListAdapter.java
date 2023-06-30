@@ -45,6 +45,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordLi
 
         holder.imgItem.setImageResource(R.drawable.card);
         holder.tvItem.setText(item.getName());
+        holder.tvPrice.setText("$ " + String.valueOf(item.getPrice()));
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,12 +72,14 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordLi
         private CardView card;
         private ImageView imgItem;
         private TextView tvItem;
+        private TextView tvPrice;
 
         public WordListViewHolder(@NonNull View itemView){
             super(itemView);
 
             imgItem = itemView.findViewById(R.id.img_user);
             tvItem = itemView.findViewById(R.id.item);
+            tvPrice = itemView.findViewById(R.id.item_price);
             card =itemView.findViewById(R.id.card_view);
         }
     }
