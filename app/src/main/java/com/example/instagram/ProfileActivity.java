@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.navigation.ui.AppBarConfiguration;
 
+import com.example.instagram.model.Customer;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -57,30 +58,30 @@ public class ProfileActivity extends AppCompatActivity {
                 .build();
         ApiService apiService = retrofit.create(ApiService.class);
 
-        Call<Customer> call = apiService.getCustomerById(customerId);
-
-        Log.d("API Request", "URL: " + call.request().url());
-
-        call.enqueue(new Callback<Customer>() {
-            @Override
-            public void onResponse(Call<Customer> call, Response<Customer> response) {
-                if (response.isSuccessful()) {
-                    Customer customer = response.body();
-                    if (customer != null) {
-                        BindingData(customer);
-                    }
-                } else {
-                    // Product retrieval failed, handle the failure
-                    Toast.makeText(ProfileActivity.this, "Failed to retrieve product", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Customer> call, Throwable t) {
-                // Handle failure
-                Toast.makeText(ProfileActivity.this, "Failed to retrieve customer information", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        Call<Customer> call = apiService.getCustomerById(customerId);
+//
+//        Log.d("API Request", "URL: " + call.request().url());
+//
+//        call.enqueue(new Callback<Customer>() {
+//            @Override
+//            public void onResponse(Call<Customer> call, Response<Customer> response) {
+//                if (response.isSuccessful()) {
+//                    Customer customer = response.body();
+//                    if (customer != null) {
+//                        BindingData(customer);
+//                    }
+//                } else {
+//                    // Product retrieval failed, handle the failure
+//                    Toast.makeText(ProfileActivity.this, "Failed to retrieve product", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Customer> call, Throwable t) {
+//                // Handle failure
+//                Toast.makeText(ProfileActivity.this, "Failed to retrieve customer information", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
 
         btnReturn.setOnClickListener(new View.OnClickListener() {

@@ -15,16 +15,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.instagram.model.Product;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
-    public  ArrayList<Product> products;
+    public List<Product> products;
     public ArrayList<Cart_items> cartItemList;
     public activity_cartlist context;
 
-    public CartAdapter(activity_cartlist context, ArrayList<Cart_items> cartItemList, ArrayList<Product> products) {
+    public CartAdapter(activity_cartlist context, ArrayList<Cart_items> cartItemList, List<Product> products) {
         this.context = context;
         this.cartItemList = cartItemList;
         this.products = products;
