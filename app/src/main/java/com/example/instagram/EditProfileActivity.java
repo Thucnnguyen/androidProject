@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.instagram.model.Customer;
+
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -68,30 +70,30 @@ public class EditProfileActivity extends AppCompatActivity {
                 .build();
         ApiService apiService = retrofit.create(ApiService.class);
 
-        Call<Customer> call = apiService.getCustomerById(customerId);
-
-        Log.d("API Request", "URL: " + call.request().url());
-
-        call.enqueue(new Callback<Customer>() {
-            @Override
-            public void onResponse(Call<Customer> call, Response<Customer> response) {
-                if (response.isSuccessful()) {
-                    Customer customer = response.body();
-                    if (customer != null) {
-                        BindingData(customer);
-                    }
-                } else {
-                    // Product retrieval failed, handle the failure
-                    Toast.makeText(EditProfileActivity.this, "Failed to retrieve customer information", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Customer> call, Throwable t) {
-                // Handle failure
-                Toast.makeText(EditProfileActivity.this, "Failed to retrieve product", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        Call<Customer> call = apiService.getCustomerById(customerId);
+//
+//        Log.d("API Request", "URL: " + call.request().url());
+//
+//        call.enqueue(new Callback<Customer>() {
+//            @Override
+//            public void onResponse(Call<Customer> call, Response<Customer> response) {
+//                if (response.isSuccessful()) {
+//                    Customer customer = response.body();
+//                    if (customer != null) {
+//                        BindingData(customer);
+//                    }
+//                } else {
+//                    // Product retrieval failed, handle the failure
+//                    Toast.makeText(EditProfileActivity.this, "Failed to retrieve customer information", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Customer> call, Throwable t) {
+//                // Handle failure
+//                Toast.makeText(EditProfileActivity.this, "Failed to retrieve product", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     private boolean ValidateName() {
@@ -210,23 +212,23 @@ public class EditProfileActivity extends AppCompatActivity {
                 .build();
         ApiService apiService = retrofit.create(ApiService.class);
 
-        Call<Customer> call = apiService.update(cus, customerId);
-        Intent intent = new Intent(this, Login.class);
-        call.enqueue(new Callback<Customer>() {
-            @Override
-            public void onResponse(Call<Customer> call, Response<Customer> response) {
-                if (response.isSuccessful()) {
-                    Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
-                    intent.putExtra("message", "Update Success!!");
-                    startActivity(intent);
-                    finish();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Customer> call, Throwable t) {
-                Toasty.error(getApplicationContext(), "Update Failed", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        Call<Customer> call = apiService.update(cus, customerId);
+//        Intent intent = new Intent(this, Login.class);
+//        call.enqueue(new Callback<Customer>() {
+//            @Override
+//            public void onResponse(Call<Customer> call, Response<Customer> response) {
+//                if (response.isSuccessful()) {
+//                    Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
+//                    intent.putExtra("message", "Update Success!!");
+//                    startActivity(intent);
+//                    finish();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Customer> call, Throwable t) {
+//                Toasty.error(getApplicationContext(), "Update Failed", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 }

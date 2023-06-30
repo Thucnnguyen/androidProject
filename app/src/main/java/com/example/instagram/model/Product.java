@@ -1,4 +1,4 @@
-package com.example.instagram;
+package com.example.instagram.model;
 
 import java.io.Serializable;
 
@@ -69,5 +69,17 @@ public class Product implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "name='" + name + '\'' +
+                ", categoryId=" + categoryId +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", image='" + image + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

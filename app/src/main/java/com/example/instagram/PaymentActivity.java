@@ -23,6 +23,9 @@ import okhttp3.OkHttpClient;
 
 
 import android.widget.Toast;
+
+import com.example.instagram.model.Product;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,8 +41,8 @@ public class PaymentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
 
-        recyclerViewProducts = findViewById(R.id.recyclerViewProducts);
-        textViewTotalPrice = findViewById(R.id.textViewTotalPrice);
+//        recyclerViewProducts = findViewById(R.id.recyclerViewProducts);
+//        textViewTotalPrice = findViewById(R.id.textViewTotalPrice);
 //
 //        // Create a TrustManager that trusts all certificates
 //        TrustManager[] trustAllCerts = new TrustManager[] {

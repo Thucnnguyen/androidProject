@@ -1,4 +1,4 @@
-package com.example.instagram;
+package com.example.instagram.model;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
