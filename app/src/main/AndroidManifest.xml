@@ -23,16 +23,16 @@
 
         <activity
             android:name=".ProfileActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_profile"
             android:theme="@style/Theme.Instagram">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+<!--             <intent-filter>-->
+<!--             <action android:name="android.intent.action.MAIN" />-->
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+<!--             <category android:name="android.intent.category.LAUNCHER" />-->
+<!--             </intent-filter>-->
         </activity>
         <activity
             android:name=".EditProfileActivity"
@@ -52,14 +52,12 @@
             android:exported="false" />
         <activity
             android:name=".PaymentActivity"
-            android:exported="true">
-
-
+             android:exported="false">
         </activity>
         <activity
             android:name=".ProductList"
 
-            android:exported="true">
+            android:exported="false">
 
         </activity>
         <activity

@@ -1,6 +1,8 @@
 package com.example.instagram;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,8 +14,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.instagram.model.Customer;
 
+import com.example.instagram.model.Customer;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -30,7 +32,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText etxtName, etxtEmail, etxtAddress, etxtPhone, etxtPassword;
     private String customerId;
 
-    private static boolean check = true;
+    private boolean check ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +65,14 @@ public class EditProfileActivity extends AppCompatActivity {
 
 
         customerId = "1";
+//        SharedPreferences sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
+//        customerId = sharedPreferences.getString("customerId","0");
+//        if (customerId == "0") {
+//            Intent intent = new Intent(EditProfileActivity.this, Login.class);
+//            startActivity(intent);
+//            finish();
+//            return;
+//        }
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
@@ -109,7 +119,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private boolean ValidateEmail() {
         String val = etxtEmail.getText().toString();
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-        MutableLiveData<Boolean> check = new MutableLiveData<Boolean>();
+//        MutableLiveData<Boolean> check = new MutableLiveData<Boolean>();
         if (val.isEmpty()) {
             etxtEmail.setError("Field cannot be empty");
             return false;
@@ -124,7 +134,7 @@ public class EditProfileActivity extends AppCompatActivity {
         ApiService apiService = retrofit.create(ApiService.class);
 
         Call<List<Customer>> call = apiService.getCustomer();
-        check.setValue(true);
+        check = true;
         call.enqueue(new Callback<List<Customer>>() {
             @Override
             public void onResponse(Call<List<Customer>> call, Response<List<Customer>> response) {
@@ -137,8 +147,8 @@ public class EditProfileActivity extends AppCompatActivity {
                                 if(!c.getId().trim().equals(customerId.trim()))
                                 {
                                 etxtEmail.setError("Email is exist");
-                                    check.setValue(false);
-                                break;
+                                checkFalse();
+                                return;
                                 }
                             }
                         }
@@ -148,12 +158,15 @@ public class EditProfileActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Customer>> call, Throwable t) {
-
+                checkFalse();
             }
         });
-        return check.getValue();
+        return check;
     }
 
+    private void checkFalse(){
+        check = false;
+    }
     private boolean ValidatePhone() {
         String val = etxtPhone.getText().toString();
         if (val.isEmpty()) {
@@ -195,11 +208,11 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     public void UpdateCustomer(View view) {
-        if (!ValidateName() | !ValidateEmail() | !ValidatePhone() | !ValidatePassword() | !ValidateAddress()) {
+        if (!ValidateName() || !ValidateEmail() || !ValidatePhone() || !ValidatePassword() || !ValidateAddress()) {
             return;
         }
-        String fullName = etxtName.getText().toString();
 
+        String fullName = etxtName.getText().toString();
         String email = etxtEmail.getText().toString();
         String phone = etxtPhone.getText().toString();
         String password = etxtPassword.getText().toString();

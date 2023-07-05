@@ -35,7 +35,6 @@
             android:layout_weight="6"
             android:orientation="vertical"
             android:layout_marginHorizontal="10sp">
-            s
             <TextView
                 android:id="@+id/tvName"
                 android:layout_width="match_parent"
