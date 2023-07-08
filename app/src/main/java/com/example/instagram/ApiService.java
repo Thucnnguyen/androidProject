@@ -19,15 +19,12 @@ import retrofit2.http.Query;
 public interface ApiService {
     @GET("Customer")
     Call<List<Customer>> getCustomer();
-<<<<<<< HEAD
     @GET("Customer")
     Call<List<Customer>> getCustomerByEmail(@Query("email") String email);
-=======
     @GET("Customer/{id}")
     Call<Customer> getCustomerById(@Path("id") String id);
     @PUT("Customer/{id}")
     Call<Customer> update(@Body Customer customer, @Path("id") String id);
->>>>>>> 4ed8462aa80de444e838d2dd53ce9d67ef62e910
     @POST("Customer")
     Call<Customer> register(@Body Customer customer);
 

@@ -224,6 +224,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiService apiService = retrofit.create(ApiService.class);
+        Toasty.error(getApplicationContext(), "Update Failed", Toast.LENGTH_SHORT).show();
 
 //        Call<Customer> call = apiService.update(cus, customerId);
 //        Intent intent = new Intent(this, Login.class);
