@@ -14,31 +14,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/profile_return"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            style="@style/button"
-            android:background="@drawable/ic_back_black"
-            android:textColor="#000"
-            />
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/profile_setting"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="280dp"
-            style="@style/button"
-            android:background="@drawable/ic_more_black"
-            android:textColor="#000"
-            />
-    </LinearLayout>
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/profile_return"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                style="@style/button"
+                android:background="@drawable/ic_back_black"
+                android:textColor="#000"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/profile_setting"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="280dp"
+                style="@style/button"
+                android:background="@drawable/ic_more_black"
+                android:textColor="#000"
+                />
+        </LinearLayout>
         <ImageView
             android:id="@+id/profile_image"
             android:layout_width="150dp"
