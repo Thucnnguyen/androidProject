@@ -1,11 +1,25 @@
 package com.example.instagram;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.security.KeyManagementException;
@@ -28,6 +42,31 @@ import android.widget.Toast;
 import com.example.instagram.model.Customer;
 import com.example.instagram.model.Product;
 
+import com.google.gson.JsonObject;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
+import com.paypal.checkout.PayPalCheckout;
+import com.paypal.checkout.config.CheckoutConfig;
+import com.paypal.checkout.config.Environment;
+import com.paypal.checkout.config.PaymentButtonIntent;
+import com.paypal.checkout.config.SettingsConfig;
+import com.paypal.checkout.config.UIConfig;
+import com.paypal.checkout.createorder.CreateOrderActions;
+import com.paypal.checkout.createorder.CurrencyCode;
+import com.paypal.checkout.createorder.OrderIntent;
+import com.paypal.checkout.createorder.UserAction;
+import com.paypal.checkout.order.Amount;
+import com.paypal.checkout.order.AppContext;
+import com.paypal.checkout.order.OrderRequest;
+import com.paypal.checkout.order.PurchaseUnit;
+import com.paypal.checkout.paymentbutton.PaymentButtonContainer;
+import com.paypal.pyplcheckout.ui.utils.ReturnToProviderOperationType;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,19 +74,47 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PaymentActivity extends AppCompatActivity {
+    private static final String YOUR_CLIENT_ID = "AbPM6WtYhSLQjIN26c0sGrv3wDDA25gYnu4YmDoWMgag9heElje0_hQ0acfAVIZDNugKlcqMfe1EbYWY";
     private RecyclerView recyclerViewProducts;
     private TextView textViewTotalPrice, textViewCustName, textViewCustPhone, textviewCustAddr;
 
+    int PAYPAL_REQUEST_CODE = 123;
+    SharedPreferences sharedPreferences;
+     private Button paymentButton;
+
+     public static PayPalConfiguration configuration;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
         setContentView(R.layout.activity_payment);
         textViewCustName = findViewById(R.id.textViewUserName);
         textViewCustPhone = findViewById(R.id.textViewPhone);
         textviewCustAddr = findViewById(R.id.textViewAddr);
         recyclerViewProducts = findViewById(R.id.recyclerViewProducts);
         textViewTotalPrice = findViewById(R.id.textViewTotalPrice);
+        paymentButton = findViewById(R.id.payment_button_container);
 
+        configuration = new PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+                .clientId(YOUR_CLIENT_ID);
+
+        Intent intent = new Intent(this, PayPalService.class);
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
+        startService(intent);
+
+
+        //Paypal config
+        PayPalCheckout.setConfig(new CheckoutConfig(
+                getApplication(),
+                YOUR_CLIENT_ID,
+                Environment.SANDBOX,
+                CurrencyCode.USD,
+                UserAction.PAY_NOW,
+                PaymentButtonIntent.CAPTURE,
+                new SettingsConfig(true, false),
+                new UIConfig(true),
+                "com.example.instagram" + "://paypalpay"
+        ));
 
         // Retrofit initialization
         Retrofit retrofit = new Retrofit.Builder()
@@ -61,64 +128,69 @@ public class PaymentActivity extends AppCompatActivity {
         Call call = apiService.getCartItems();
 
         // Execute the API call asynchronously
-        call.enqueue(new Callback<Cart_items[]>() {
+        call.enqueue(new Callback<List<Cart_items>>() {
             @Override
-            public void onResponse(Call<Cart_items[]> call, Response<Cart_items[]> response) {
+            public void onResponse(Call<List<Cart_items>> call, Response<List<Cart_items>> response) {
                 if (response.isSuccessful()) {
 
-                    Cart_items[] items = response.body();
-                    List<Product> products = new ArrayList<Product>() ;
-                    for(int i = 0; i < items.length;i++) {
-                        Call productCall = apiService.getProductById(items[i].getProductID());
+                    List<Cart_items> items = response.body();
+                        Call productCall = apiService.getAllProduct();
 
-                        productCall.enqueue(new Callback<Product>() {
+                        productCall.enqueue(new Callback<List<Product>>() {
                             @Override
-                            public void onResponse(Call<Product> call, Response<Product> response) {
+                            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                                 if (response.isSuccessful()) {
-                                    Product product = response.body();
-                                    products.add(product);
-                                    Toast.makeText(PaymentActivity.this,product.getName(), Toast.LENGTH_SHORT).show();
+                                    List<Product> products = response.body();
+                                    Toast.makeText(PaymentActivity.this, ""+products.size(), Toast.LENGTH_SHORT).show();
+                                    // Process the retrieved products here
+                                    // Create a LinearLayoutManager with the desired orientation
+                                    LinearLayoutManager layoutManager = new LinearLayoutManager(PaymentActivity.this, LinearLayoutManager.VERTICAL, false);
+                                    recyclerViewProducts.setLayoutManager(layoutManager);
+
+                                    // Set the adapter for the RecyclerView
+                                    ProductAdapter adapter = new ProductAdapter(PaymentActivity.this, products, items);
+                                    recyclerViewProducts.setAdapter(adapter);
+
+                                    // Calculate the total price
+                                    double totalPrice = calculateTotalPrice(products, items);
+                                    // Set the total price in the TextView
+                                    textViewTotalPrice.setText("Total Price: $" + totalPrice);
+
+                                    paymentButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            getPayment(""+totalPrice);
+                                        }
+                                    });
                                 }
                             }
 
                             @Override
-                            public void onFailure(Call<Product> call, Throwable t) {
+                            public void onFailure(Call<List<Product>> call, Throwable t) {
                                 Log.d("CREATION", "onFailure: " + t.getMessage());
                                 Toast.makeText(PaymentActivity.this, t.toString(), Toast.LENGTH_LONG).show();
                             }
                         });
-                    }
 
-                    // Process the retrieved products here
-                    // Create a LinearLayoutManager with the desired orientation
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(PaymentActivity.this, LinearLayoutManager.VERTICAL, false);
-                    recyclerViewProducts.setLayoutManager(layoutManager);
 
-                    // Set the adapter for the RecyclerView
-                    ProductAdapter adapter = new ProductAdapter(PaymentActivity.this, products, items);
-                    recyclerViewProducts.setAdapter(adapter);
-
-                    // Calculate the total price
-                    double totalPrice = calculateTotalPrice(products);
-
-                    // Set the total price in the TextView
-                    textViewTotalPrice.setText("Total Price: $" + totalPrice);
                 } else {
                     // Handle error response
                     Toast.makeText(PaymentActivity.this, "Failed to retrieve products", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
-            public void onFailure(Call<Cart_items[]> call, Throwable t) {
+            public void onFailure(Call<List<Cart_items>> call, Throwable t) {
                 // Handle network errors or API call failures
                 Toast.makeText(PaymentActivity.this, "Network error", Toast.LENGTH_SHORT).show();
                 Toast.makeText(PaymentActivity.this, t.toString(), Toast.LENGTH_LONG).show();
             }
         });
         //Get Customer Info
-        String customerId = "1";
+//        String customerId = "1";
+        int customerId = sharedPreferences.getInt("customerId", 0);
 
-        call = apiService.getCustomerById(customerId);
+        call = apiService.getCustomerById("" + customerId);
 
         call.enqueue(new Callback<Customer>() {
             @Override
@@ -141,23 +213,65 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
     }
-    private double calculateTotalPrice(List<Product> productList) {
+
+    private void getPayment(String price) {
+        PayPalPayment payment = new PayPalPayment(new BigDecimal(String.valueOf(price)), "USD","Total Price:",PayPalPayment.PAYMENT_INTENT_SALE);
+
+        Intent intent = new Intent(this, com.paypal.android.sdk.payments.PaymentActivity.class);
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
+        intent.putExtra(com.paypal.android.sdk.payments.PaymentActivity.EXTRA_PAYMENT, payment);
+
+        startActivityForResult(intent, PAYPAL_REQUEST_CODE);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == PAYPAL_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                PaymentConfirmation paymentConfirmation = data.getParcelableExtra(com.paypal.android.sdk.payments.PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+
+
+                if (paymentConfirmation != null) {
+                    try {
+                        String paymentDetails = paymentConfirmation.toJSONObject().toString();
+                        JSONObject object = new JSONObject(paymentDetails);
+                    } catch (JSONException e) {
+                        Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else if (requestCode == Activity.RESULT_CANCELED) {
+                    Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
+                }
+            }else if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(this, "The user canceled.", Toast.LENGTH_SHORT).show();
+            }
+            else if (requestCode == com.paypal.android.sdk.payments.PaymentActivity.RESULT_EXTRAS_INVALID) {
+                Toast.makeText(this, "Invalid Payment!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private double calculateTotalPrice(List<Product> productList, List<Cart_items> items) {
         float totalPrice = 0.0f;
 
         // Iterate through the product list and sum up the prices
+        for (Cart_items item : items) {
         for (Product product : productList) {
-            totalPrice += product.getPrice();
+                if (item.getProductID() == product.getId()) {
+                    totalPrice += product.getPrice() * item.getQuantity();
+                }
+            }
+        }
+            return totalPrice;
+    }
+
+        private void BindingData (Customer cus){
+
+            textViewCustName.setText(cus.getName());
+            textviewCustAddr.setText(cus.getAddress());
+            textViewCustPhone.setText(cus.getPhone());
         }
 
-        return totalPrice;
     }
-
-    private void BindingData(Customer cus){
-
-        textViewCustName.setText(cus.getName());
-        textviewCustAddr.setText(cus.getAddress());
-        textViewCustPhone.setText(cus.getPhone());
-    }
-
-
-}
