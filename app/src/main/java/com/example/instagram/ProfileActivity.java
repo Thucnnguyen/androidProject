@@ -5,16 +5,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.appcompat.widget.PopupMenu;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.example.instagram.model.Customer;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -42,7 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.logout_button);
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
-        customerId = sharedPreferences.getInt("customerId",0);
+        customerId = sharedPreferences.getInt("customerId", 0);
 
         if (customerId == 0) {
             Intent intent = new Intent(ProfileActivity.this, Login.class);
@@ -113,11 +118,64 @@ public class ProfileActivity extends AppCompatActivity {
                 Intent intent = new Intent(ProfileActivity.this, Login.class);
                 startActivity(intent);
                 finish();
-        }
+            }
+        });
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.profileNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.person);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.home) {
+                    Intent intent = new Intent(ProfileActivity.this, ProductList.class);
+                    startActivity(intent);
+                    return true;
+                } else if (item.getItemId() == R.id.history) {
+                    // Handle History item click
+                    return true;
+                } else if (item.getItemId() == R.id.person) {
+
+                    return true;
+                } else if (item.getItemId() == R.id.cart) {
+                    // Handle Cart item click
+//                    Intent intent = new Intent(ProductList.this, activity_cartlist.class);
+//                    startActivity(intent);
+                    return true;
+                }
+                return false;
+            }
         });
     }
 
-    private void BindingData(Customer cus){
+    public void showPopupMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.profile_menu, popupMenu.getMenu());
+
+        // Set item click listener for the menu
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                // Handle menu item clicks here
+                if (item.getItemId() == R.id.profile_edit_btn) {
+                    Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+                    startActivity(intent);
+                    return true;
+                } else if (item.getItemId() == R.id.profile_logout_btn) {
+                    Intent intent = new Intent(ProfileActivity.this, Login.class);
+                    startActivity(intent);
+                    finish();
+                    return true;
+                } else return false;
+            }
+        });
+
+        // Show the popup menu
+        popupMenu.show();
+    }
+
+
+    private void BindingData(Customer cus) {
         txtName = findViewById(R.id.profile_name);
         txtEmail = findViewById(R.id.profile_email);
         txtAddress = findViewById(R.id.profile_address);
