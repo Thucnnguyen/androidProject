@@ -65,7 +65,7 @@ public class activity_cartlist extends AppCompatActivity {
                 if(response.isSuccessful()){
 //                    cart_items = new ArrayList<>(cartItems);
                 }
-                    CaclulateTotal();
+//                    CaclulateTotal();
                 cartAdapter.notifyDataSetChanged();
             }
 
@@ -131,7 +131,7 @@ public class activity_cartlist extends AppCompatActivity {
     }
 
     public void RemoveFromCart(Cart_items cart, int quantity) {
-//        cart.getQuantity() -= quantity;
+        cart.Quantity -= quantity;
         if (cart.getQuantity() > 0) {
             apiService.updateCartItems(cart.getProductID(), cart.getQuantity()).enqueue(new Callback<Cart_items>() {
                 @Override
@@ -143,7 +143,7 @@ public class activity_cartlist extends AppCompatActivity {
                         }
 
                         toast("Removed 1 from cart!");
-                        CaclulateTotal();
+//                        CaclulateTotal();
                         cartAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
 
@@ -168,7 +168,7 @@ public class activity_cartlist extends AppCompatActivity {
 
                         toast("Deleted item from cart!");
                         products.remove(cart);
-                        CaclulateTotal();
+//                        CaclulateTotal();
                         cartAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
 
@@ -183,13 +183,13 @@ public class activity_cartlist extends AppCompatActivity {
         }
     }
 
-    public void CaclulateTotal() {
-        TextView total = findViewById(R.id.total);
-        Product product = new Product();
-        Cart_items cart = new Cart_items();
-        int overTotalPrice = 0;
-        int oneTypeProductPrice = (int) (((Float.valueOf(product.getPrice())) * Integer.valueOf(cart.getQuantity()));
-        overTotalPrice = oneTypeProductPrice + overTotalPrice;
-        total.setText("Total: " + Integer.valueOf(overTotalPrice) +"$");
-    }
+//    public void CaclulateTotal() {
+//        TextView total = findViewById(R.id.total);
+//        Product product = new Product();
+//        Cart_items cart = new Cart_items();
+//        int overTotalPrice = 0;
+//        int oneTypeProductPrice = (int) (((Float.valueOf(product.getPrice())) * Integer.valueOf(cart.getQuantity())));
+//        overTotalPrice = oneTypeProductPrice + overTotalPrice;
+//        total.setText("Total: " + Integer.valueOf(overTotalPrice) +"$");
+//    }
 }

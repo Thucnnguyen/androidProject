@@ -157,7 +157,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                                     }
                                 });
                             } else {
-                                Call<Cart_items> add = apiService.addCartItems(new Cart_items(cusId, productId, 1));
+                                Call<Cart_items> add = apiService.addCartItems(new Cart_items(cusId, productId, quantity));
                                 add.enqueue(new Callback<Cart_items>() {
                                     @Override
                                     public void onResponse(Call<Cart_items> call, Response<Cart_items> response) {
@@ -186,7 +186,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 });
 //                startActivity(intent);
 //                activity_cartlist a = new activity_cartlist();
-//                Product prod = new Product();
+////                Product prod = new Product();
 //                a.AddToCart(productId, quantity);
             }
         });
