@@ -17,6 +17,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
@@ -78,11 +80,15 @@ public class PaymentActivity extends AppCompatActivity {
     private RecyclerView recyclerViewProducts;
     private TextView textViewTotalPrice, textViewCustName, textViewCustPhone, textviewCustAddr;
 
+    private RadioButton paypalBtn, shipCodBtn;
+    private RadioGroup radioGroup;
+
     int PAYPAL_REQUEST_CODE = 123;
     SharedPreferences sharedPreferences;
-     private Button paymentButton;
+    private Button paymentButton, btnReturn;
 
-     public static PayPalConfiguration configuration;
+    public static PayPalConfiguration configuration;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +100,33 @@ public class PaymentActivity extends AppCompatActivity {
         recyclerViewProducts = findViewById(R.id.recyclerViewProducts);
         textViewTotalPrice = findViewById(R.id.textViewTotalPrice);
         paymentButton = findViewById(R.id.payment_button_container);
+        btnReturn = findViewById(R.id.button_return);
+        paypalBtn = findViewById(R.id.radioButtonPaypal);
+        shipCodBtn = findViewById(R.id.radioButtonShipCOD);
+        radioGroup = findViewById(R.id.radioGroupPaymentMethod);
+
+
+        int customerId = sharedPreferences.getInt("customerId", 0);
+
+        btnReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                finish();
+            }
+        });
+
+
+// Disable the submit button initially
+        paymentButton.setEnabled(false);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // Enable the submit button when a radio button is checked
+                paymentButton.setEnabled(true);
+            }
+        });
 
         configuration = new PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
                 .clientId(YOUR_CLIENT_ID);
@@ -134,43 +167,62 @@ public class PaymentActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
 
                     List<Cart_items> items = response.body();
-                        Call productCall = apiService.getAllProduct();
+                    Call productCall = apiService.getAllProduct();
 
-                        productCall.enqueue(new Callback<List<Product>>() {
-                            @Override
-                            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-                                if (response.isSuccessful()) {
-                                    List<Product> products = response.body();
-                                    Toast.makeText(PaymentActivity.this, ""+products.size(), Toast.LENGTH_SHORT).show();
-                                    // Process the retrieved products here
-                                    // Create a LinearLayoutManager with the desired orientation
-                                    LinearLayoutManager layoutManager = new LinearLayoutManager(PaymentActivity.this, LinearLayoutManager.VERTICAL, false);
-                                    recyclerViewProducts.setLayoutManager(layoutManager);
+                    productCall.enqueue(new Callback<List<Product>>() {
+                        @Override
+                        public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                            if (response.isSuccessful()) {
+                                List<Product> products = response.body();
+                                Toast.makeText(PaymentActivity.this, "" + products.size(), Toast.LENGTH_SHORT).show();
+                                // Process the retrieved products here
+                                // Create a LinearLayoutManager with the desired orientation
+                                LinearLayoutManager layoutManager = new LinearLayoutManager(PaymentActivity.this, LinearLayoutManager.VERTICAL, false);
+                                recyclerViewProducts.setLayoutManager(layoutManager);
 
-                                    // Set the adapter for the RecyclerView
-                                    ProductAdapter adapter = new ProductAdapter(PaymentActivity.this, products, items);
-                                    recyclerViewProducts.setAdapter(adapter);
+                                // Set the adapter for the RecyclerView
+                                ProductAdapter adapter = new ProductAdapter(PaymentActivity.this, products, items, customerId);
+                                recyclerViewProducts.setAdapter(adapter);
 
-                                    // Calculate the total price
-                                    double totalPrice = calculateTotalPrice(products, items);
-                                    // Set the total price in the TextView
-                                    textViewTotalPrice.setText("Total Price: $" + totalPrice);
+                                // Calculate the total price
+                                double totalPrice = calculateTotalPrice(products, items, customerId);
+                                // Set the total price in the TextView
+                                textViewTotalPrice.setText("Total Price: $" + totalPrice);
 
-                                    paymentButton.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            getPayment(""+totalPrice);
+                                paymentButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+//                                        // Get the checked radio button's ID from the RadioGroup
+//                                        int checkedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+
+                                        // Perform the action based on the selected radio button
+                                        if (paypalBtn.isChecked()) {
+                                            getPayment("" + totalPrice);
+                                        } else if (shipCodBtn.isChecked()) {
+                                            DeleteCart(items, customerId);
+                                            Intent intent = new Intent(PaymentActivity.this, ProductList.class);
+                                            startActivity(intent);
                                         }
-                                    });
-                                }
-                            }
 
-                            @Override
-                            public void onFailure(Call<List<Product>> call, Throwable t) {
-                                Log.d("CREATION", "onFailure: " + t.getMessage());
-                                Toast.makeText(PaymentActivity.this, t.toString(), Toast.LENGTH_LONG).show();
+                                        // Disable the submit button after processing the selection
+                                        paymentButton.setEnabled(false);
+                                    }
+                                });
+//                                paymentButton.setOnClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//                                        getPayment("" + totalPrice);
+//                                    }
+//                                });
                             }
-                        });
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<Product>> call, Throwable t) {
+                            Log.d("CREATION", "onFailure: " + t.getMessage());
+                            Toast.makeText(PaymentActivity.this, t.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    });
 
 
                 } else {
@@ -188,7 +240,7 @@ public class PaymentActivity extends AppCompatActivity {
         });
         //Get Customer Info
 //        String customerId = "1";
-        int customerId = sharedPreferences.getInt("customerId", 0);
+
 
         call = apiService.getCustomerById("" + customerId);
 
@@ -215,7 +267,7 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     private void getPayment(String price) {
-        PayPalPayment payment = new PayPalPayment(new BigDecimal(String.valueOf(price)), "USD","Total Price:",PayPalPayment.PAYMENT_INTENT_SALE);
+        PayPalPayment payment = new PayPalPayment(new BigDecimal(String.valueOf(price)), "USD", "Total Price:", PayPalPayment.PAYMENT_INTENT_SALE);
 
         Intent intent = new Intent(this, com.paypal.android.sdk.payments.PaymentActivity.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
@@ -229,7 +281,7 @@ public class PaymentActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == PAYPAL_REQUEST_CODE) {
+        if (requestCode == PAYPAL_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 PaymentConfirmation paymentConfirmation = data.getParcelableExtra(com.paypal.android.sdk.payments.PaymentActivity.EXTRA_RESULT_CONFIRMATION);
 
@@ -244,34 +296,71 @@ public class PaymentActivity extends AppCompatActivity {
                 } else if (requestCode == Activity.RESULT_CANCELED) {
                     Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
                 }
-            }else if (resultCode == Activity.RESULT_CANCELED) {
+            } else if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(this, "The user canceled.", Toast.LENGTH_SHORT).show();
-            }
-            else if (requestCode == com.paypal.android.sdk.payments.PaymentActivity.RESULT_EXTRAS_INVALID) {
+            } else if (requestCode == com.paypal.android.sdk.payments.PaymentActivity.RESULT_EXTRAS_INVALID) {
                 Toast.makeText(this, "Invalid Payment!", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private double calculateTotalPrice(List<Product> productList, List<Cart_items> items) {
+    private double calculateTotalPrice(List<Product> productList, List<Cart_items> items, int customerId) {
         float totalPrice = 0.0f;
 
         // Iterate through the product list and sum up the prices
         for (Cart_items item : items) {
-        for (Product product : productList) {
-                if (item.getProductID() == product.getId()) {
-                    totalPrice += product.getPrice() * item.getQuantity();
+            if (item.getCustomerId() == customerId) {
+                for (Product product : productList) {
+                    if (item.getProductID() == product.getId()) {
+                        totalPrice += product.getPrice() * item.getQuantity();
+                    }
                 }
             }
         }
-            return totalPrice;
+        return totalPrice;
     }
 
-        private void BindingData (Customer cus){
+    private void BindingData(Customer cus) {
 
-            textViewCustName.setText(cus.getName());
-            textviewCustAddr.setText(cus.getAddress());
-            textViewCustPhone.setText(cus.getPhone());
+        textViewCustName.setText(cus.getName());
+        textviewCustAddr.setText(cus.getAddress());
+        textViewCustPhone.setText(cus.getPhone());
+    }
+
+    private void DeleteCart(List<Cart_items> items, int customerId) {
+        // Retrofit initialization
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        // Create an instance of the API service
+        ApiService apiService = retrofit.create(ApiService.class);
+        // Call the API endpoint
+        Call<Void> call;
+        for (Cart_items item : items ){
+            if(item.getCustomerId() == customerId){
+                call = apiService.deleteCartItemsById(""+item.getId());
+
+                // Execute the API call asynchronously
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+
+                    }
+                });
+            }
         }
 
+
+
+
+
     }
+
+}

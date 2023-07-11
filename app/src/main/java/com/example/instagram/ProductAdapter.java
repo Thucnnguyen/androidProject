@@ -23,10 +23,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private List<Product> productList;
     private List<Cart_items> items;
 
-    public ProductAdapter(Context context, List<Product> productList, List<Cart_items> items) {
+    private int customerId;
+    public ProductAdapter(Context context, List<Product> productList, List<Cart_items> items, int customerId) {
         this.context = context;
         this.productList = productList;
         this.items = items;
+        this.customerId = customerId;
     }
 
     @NonNull
@@ -41,7 +43,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Cart_items item = items.get(position);
         for(Product product : productList) {
-            if(product.getId() == item.getProductID()) {
+            if(product.getId() == item.getProductID() && item.getCustomerId()==customerId) {
                 holder.textViewName.setText(product.getName());
                 holder.textViewPrice.setText("$" + product.getPrice());
                 holder.textViewQuantity.setText("x" + item.getQuantity());

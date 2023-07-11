@@ -62,4 +62,7 @@ public interface ApiService {
     @DELETE("Cart_items")
     Call<Void> deleteCartItems(@Query("ProductID") int ProductID);
 
+    @DELETE("Cart_items/{id}")
+    Call<Void> deleteCartItemsById(@Path("id") String id);
+
 }
