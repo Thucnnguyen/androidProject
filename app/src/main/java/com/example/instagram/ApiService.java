@@ -41,6 +41,8 @@ public interface ApiService {
     Call<Cart> getCart(@Body String id);
     @GET("Cart_items")
     Call<List<Cart_items>> getCartItems();
+    @GET("Cart_items")
+    Call<Cart_items[]> getCartItem();
 
     @PUT("Cart_items/{id}")
     Call<ResponseBody> updateCartItems(@Path("id")int cartId, @Body Cart_items cart_items);

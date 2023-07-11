@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.instagram.model.Customer;
@@ -53,22 +54,23 @@ public class activity_cartlist extends AppCompatActivity {
 
     public void GetCart() {
 
-        Call<List<Cart_items>> call = apiService.getCartItems();
+        Call<Cart_items[]> call = apiService.getCartItem();
 
-        call.enqueue(new Callback<List<Cart_items>>() {
+        call.enqueue(new Callback<Cart_items[]>() {
             @Override
-            public void onResponse(Call<List<Cart_items>> call, Response<List<Cart_items>> response) {
-//                Collections.addAll(cart_items, response.body());
-                List<Cart_items> cartItems= response.body();
+            public void onResponse(Call<Cart_items[]> call, Response<Cart_items[]> response) {
+                Collections.addAll(cart_items, response.body());
+
+//                List<Cart_items> cartItems= response.body();
                 if(response.isSuccessful()){
-                    cart_items = new ArrayList<>(cartItems);
+//                    cart_items = new ArrayList<>(cartItems);
                 }
-//                    CaclulateTotal();
+                    CaclulateTotal();
                 cartAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(Call<List<Cart_items>> call, Throwable t) {
+            public void onFailure(Call<Cart_items[]> call, Throwable t) {
 
             }
         });
@@ -84,6 +86,7 @@ public class activity_cartlist extends AppCompatActivity {
         call.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+//
 //                    Collections.addAll(products, response.body());
                 products.clear();
                 products.addAll(response.body());
@@ -140,7 +143,7 @@ public class activity_cartlist extends AppCompatActivity {
                         }
 
                         toast("Removed 1 from cart!");
-//                        CaclulateTotal();
+                        CaclulateTotal();
                         cartAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
 
@@ -165,7 +168,7 @@ public class activity_cartlist extends AppCompatActivity {
 
                         toast("Deleted item from cart!");
                         products.remove(cart);
-//                        CaclulateTotal();
+                        CaclulateTotal();
                         cartAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
 
@@ -180,7 +183,13 @@ public class activity_cartlist extends AppCompatActivity {
         }
     }
 
-//    public void CaclulateTotal() {
-//        tvTotal.setText("Total : " + carts.stream().mapToDouble(p -> p.quantity * p.product.price).sum());
-//    }
+    public void CaclulateTotal() {
+        TextView total = findViewById(R.id.total);
+        Product product = new Product();
+        Cart_items cart = new Cart_items();
+        int overTotalPrice = 0;
+        int oneTypeProductPrice = (int) (((Float.valueOf(product.getPrice())) * Integer.valueOf(cart.getQuantity()));
+        overTotalPrice = oneTypeProductPrice + overTotalPrice;
+        total.setText("Total: " + Integer.valueOf(overTotalPrice) +"$");
+    }
 }

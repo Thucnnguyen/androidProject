@@ -36,20 +36,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"/>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp"
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="89dp"
+                android:layout_height="46dp"
+                android:layout_alignParentBottom="true"
                 android:layout_centerInParent="true"
-                android:text="Check Out"
-                android:textColor="@android:color/white"
-                android:background="@android:color/holo_red_dark"
-                android:id="@+id/checkout"
-                android:layout_alignParentBottom="true"/>
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+
+                android:text="2000$"
+                android:textSize="30dp"
+                android:textColor="@android:color/black" />
 
             <Button
-                android:id="@+id/clearthedatabase"
+                android:id="@+id/checkout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -57,9 +58,9 @@
                 android:layout_marginStart="-21dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_toEndOf="@+id/checkout"
+                android:layout_toEndOf="@+id/total"
                 android:background="@android:color/holo_red_dark"
-                android:text="Clear Cart"
+                android:text="Check Out"
                 android:textColor="@android:color/white" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

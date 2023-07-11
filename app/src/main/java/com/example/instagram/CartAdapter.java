@@ -55,7 +55,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         new DownloadImageTask(holder.ivProduct).execute(product.getImage());
         holder.tvName.setText(product.getName());
         holder.tvPrice.setText("Price : " + product.getPrice() * cart.getQuantity() + "$");
-        holder.tvQuantity.setText(cart.getQuantity() * product.getPrice() + "");
+        holder.tvQuantity.setText(cart.getQuantity()+"");
+
 
 
         holder.btnAddOne.setOnClickListener(v -> {
