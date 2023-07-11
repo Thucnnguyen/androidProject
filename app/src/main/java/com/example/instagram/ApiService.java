@@ -19,16 +19,10 @@ import retrofit2.http.Query;
 public interface ApiService {
     @GET("Customer")
     Call<List<Customer>> getCustomer();
-
-    @GET("Customer")
-    Call<List<Customer>> getCustomerByEmail(@Query("email") String email);
-
-    @GET("Customer/{id}")
-    Call<Customer> getCustomerById(@Path("id") String id);
-
     @PUT("Customer/{id}")
     Call<Customer> update(@Body Customer customer, @Path("id") String id);
-
+    @GET
+    Call<Customer> getCustomerById(@Path("id") String id);
     @POST("Customer")
     Call<Customer> register(@Body Customer customer);
 
@@ -45,12 +39,13 @@ public interface ApiService {
 
     @GET("Cart/{id}")
     Call<Cart> getCart(@Body String id);
-
     @GET("Cart_items")
     Call<List<Cart_items>> getCartItems();
+    @GET("Cart_items")
+    Call<Cart_items[]> getCartItem();
 
     @PUT("Cart_items/{id}")
-    Call<ResponseBody> updateCartItems(@Path("id") int cartId, @Body Cart_items cart_items);
+    Call<ResponseBody> updateCartItems(@Path("id")int cartId, @Body Cart_items cart_items);
 
     @POST("Cart_items")
     Call<Cart_items> addCartItems(@Body Cart_items cart_items);
@@ -60,6 +55,7 @@ public interface ApiService {
                                      @Query("Quantity") int Quantity);
 
     @DELETE("Cart_items")
+
     Call<Void> deleteCartItems(@Query("ProductID") int ProductID);
 
     @DELETE("Cart_items/{id}")

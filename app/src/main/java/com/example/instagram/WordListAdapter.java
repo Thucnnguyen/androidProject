@@ -86,23 +86,24 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordLi
                                     }
                                 }
                             }
-                            if(searchCart!=null){
-                                searchCart.setQuantity(searchCart.getQuantity()+1);
-                                Call<ResponseBody> updateCart = apiService.updateCartItems(item.getId(),searchCart);
+                            if(searchCart!=null) {
+                                searchCart.setQuantity(searchCart.getQuantity() + 1);
+                                Call<ResponseBody> updateCart = apiService.updateCartItems(item.getId(), searchCart);
                                 updateCart.enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        if(response.isSuccessful()){
-                                            Toasty.info(mContext ,"Add Success", Toast.LENGTH_SHORT).show();
+                                        if (response.isSuccessful()) {
+                                            Toasty.info(mContext, "Add Success", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 
                                     @Override
                                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        Toasty.info(mContext ,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                        Toasty.info(mContext, t.getMessage(), Toast.LENGTH_SHORT).show();
 
                                     }
                                 });
+
                             }else{
                                 Call<Cart_items> add = apiService.addCartItems(new Cart_items(cusId,item.getId(),1));
                                 add.enqueue(new Callback<Cart_items>() {
