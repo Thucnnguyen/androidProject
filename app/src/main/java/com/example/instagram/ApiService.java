@@ -1,6 +1,5 @@
 package com.example.instagram;
 
-import com.example.instagram.model.Cart;
 import com.example.instagram.model.Customer;
 import com.example.instagram.model.Order;
 import com.example.instagram.model.Order_Item;
@@ -39,12 +38,14 @@ public interface ApiService {
     Call<List<Product>> searchProductByName(@Query("name") String searchText);
 
 
-    @GET("Cart/{id}")
-    Call<Cart> getCart(@Body String id);
+
+    @GET("Cart_items/{customerId}")
+    Call<List<Cart_items>> getCartItems(@Path("customerId") int customerId);
+
     @GET("Cart_items")
     Call<List<Cart_items>> getCartItems();
-    @GET("Cart_items")
-    Call<Cart_items[]> getCartItem();
+
+
 
     @PUT("Cart_items/{id}")
     Call<ResponseBody> updateCartItems(@Path("id")int cartId, @Body Cart_items cart_items);
