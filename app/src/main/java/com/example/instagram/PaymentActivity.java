@@ -228,8 +228,7 @@ public class PaymentActivity extends AppCompatActivity {
 //                                            });
 
 
-                                            Intent intent = new Intent(PaymentActivity.this, ProductList.class);
-                                            startActivity(intent);
+
                                         }
 
                                         // Disable the submit button after processing the selection
@@ -408,6 +407,8 @@ public class PaymentActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Order order = response.body();
                     AddOrderItem(items, products, customerId, order.getId());
+                    Intent intent = new Intent(PaymentActivity.this, activity_order_success.class);
+                    startActivity(intent);
                 }
             }
 
