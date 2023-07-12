@@ -123,7 +123,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 ApiService apiService = retrofit.create(ApiService.class);
-                Call<List<Cart_items>> call = apiService.getCartItems();
+                Call<List<Cart_items>> call = apiService.getCartItems(cusId);
                 call.enqueue(new Callback<List<Cart_items>>() {
                     @Override
                     public void onResponse(Call<List<Cart_items>> call, Response<List<Cart_items>> response) {
