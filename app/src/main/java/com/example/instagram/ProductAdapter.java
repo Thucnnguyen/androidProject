@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 //import com.bumptech.glide.Glide;
 import com.bumptech.glide.Glide;
+import com.example.instagram.model.Order_Item;
 import com.example.instagram.model.Product;
 
 
@@ -17,6 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private Context context;
@@ -59,7 +64,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public int getItemCount() {
-        return items.size();
+        int i=0;
+        for (Cart_items item : items) {
+            if (item.getCustomerId() == customerId) {
+                for (Product product : productList) {
+                    if (item.getProductID() == product.getId()) {
+                            ++i;
+                        }
+                    }
+                }
+
+
+            }
+        return i;
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {

@@ -2,6 +2,8 @@ package com.example.instagram;
 
 import com.example.instagram.model.Cart;
 import com.example.instagram.model.Customer;
+import com.example.instagram.model.Order;
+import com.example.instagram.model.Order_Item;
 import com.example.instagram.model.Product;
 
 import java.util.List;
@@ -21,7 +23,7 @@ public interface ApiService {
     Call<List<Customer>> getCustomer();
     @PUT("Customer/{id}")
     Call<Customer> update(@Body Customer customer, @Path("id") String id);
-    @GET
+    @GET("Customer/{id}")
     Call<Customer> getCustomerById(@Path("id") String id);
     @POST("Customer")
     Call<Customer> register(@Body Customer customer);
@@ -61,4 +63,11 @@ public interface ApiService {
     @DELETE("Cart_items/{id}")
     Call<Void> deleteCartItemsById(@Path("id") String id);
 
+    @POST("Orders")
+    Call<Order> addOrder(@Body Order order);
+    @GET("Orders")
+    Call<List<Order>> getOrder();
+
+    @POST("Order_items")
+    Call<Order_Item> addOrderItem(@Body Order_Item order_item);
 }
