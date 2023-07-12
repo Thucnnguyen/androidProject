@@ -1,12 +1,14 @@
 package com.example.instagram;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 //import com.bumptech.glide.Glide;
+import com.bumptech.glide.Glide;
 import com.example.instagram.model.Product;
 
 
@@ -19,12 +21,14 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private Context context;
     private List<Product> productList;
-    private Cart_items[] items;
+    private List<Cart_items> items;
 
-    public ProductAdapter(Context context, List<Product> productList, Cart_items[] items) {
+    private int customerId;
+    public ProductAdapter(Context context, List<Product> productList, List<Cart_items> items, int customerId) {
         this.context = context;
         this.productList = productList;
         this.items = items;
+        this.customerId = customerId;
     }
 
     @NonNull
@@ -37,11 +41,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        Cart_items item = items[position];
-        Product product = productList.get(item.getProductID());
-        holder.textViewName.setText(product.getName());
-        holder.textViewPrice.setText("$" + product.getPrice());
-        holder.textViewPrice.setText("x" + item.getQuantity());
+        Cart_items item = items.get(position);
+        for(Product product : productList) {
+            if(product.getId() == item.getProductID() && item.getCustomerId()==customerId) {
+                holder.textViewName.setText(product.getName());
+                holder.textViewPrice.setText("$" + product.getPrice());
+                holder.textViewQuantity.setText("x" + item.getQuantity());
+//                holder.imageViewProduct.setImageURI(Uri.parse(product.getImage()));
+                Glide.with(context).load(Uri.parse(product.getImage())).into(holder.imageViewProduct);
+            }
+        }
         // Load the image URI into imageViewProduct using Glide
         /*Glide.with(holder.itemView.getContext())
                 .load(product.getImage())
@@ -50,18 +59,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public int getItemCount() {
-        return productList.size();
+        return items.size();
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
         TextView textViewName;
         TextView textViewPrice;
+        TextView textViewQuantity;
         ImageView imageViewProduct;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
             textViewName = itemView.findViewById(R.id.textViewProductName);
             textViewPrice = itemView.findViewById(R.id.textViewProductPrice);
+            textViewQuantity = itemView.findViewById(R.id.textViewProductQuantity);
             imageViewProduct = itemView.findViewById(R.id.imageViewProduct);
         }
     }

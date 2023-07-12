@@ -34,7 +34,8 @@
             android:exported="false" />
         <activity
             android:name=".PaymentActivity"
-            android:exported="false"></activity>
+             android:exported="false">
+        </activity>
         <activity
             android:name=".ProductList"
 
@@ -56,9 +57,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ProductDetailActivity"
             android:exported="false"></activity>
+
+<!--        <activity-->
+<!--            android:name="com.paypal.pyplcheckout.home.view.activities.PYPLInitiateCheckoutActivity"-->
+<!--            android:exported="true">-->
+<!--            &lt;!&ndash; Other attributes and configurations &ndash;&gt;-->
+<!--        </activity>-->
+
+<!--        <activity-->
+<!--            android:name="com.paypal.openid.RedirectUriReceiverActivity"-->
+<!--            android:exported="true">-->
+<!--            &lt;!&ndash; Other attributes and configurations &ndash;&gt;-->
+<!--        </activity>-->
 
     </application>
 
