@@ -19,6 +19,11 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.example.instagram.model.Customer;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 
@@ -31,7 +36,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileActivity extends AppCompatActivity {
-
+    private GoogleSignInClient googleSignInClient;
     private Button btnReturn, btnLogout, btnEdit;
     private TextView txtName, txtEmail, txtAddress, txtPhone;
     private int customerId;
@@ -45,6 +50,10 @@ public class ProfileActivity extends AppCompatActivity {
         btnReturn = findViewById(R.id.profile_return);
         btnEdit = findViewById(R.id.edit_profile);
         btnLogout = findViewById(R.id.logout_button);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
         customerId = sharedPreferences.getInt("customerId", 0);
@@ -115,9 +124,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, Login.class);
-                startActivity(intent);
-                finish();
+                logout();
             }
         });
 
@@ -162,9 +169,10 @@ public class ProfileActivity extends AppCompatActivity {
                     startActivity(intent);
                     return true;
                 } else if (item.getItemId() == R.id.profile_logout_btn) {
-                    Intent intent = new Intent(ProfileActivity.this, Login.class);
-                    startActivity(intent);
-                    finish();
+//                    Intent intent = new Intent(ProfileActivity.this, Login.class);
+//                    startActivity(intent);
+//                    finish();
+                    logout();
                     return true;
                 } else return false;
             }
@@ -187,5 +195,19 @@ public class ProfileActivity extends AppCompatActivity {
         txtAddress.setText(cus.getAddress());
     }
 
+    private void logout() {
+        // Sign out from Google Sign-In
+        googleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                // Clear shared preferences and navigate to Login activity
+                SharedPreferences sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
+                sharedPreferences.edit().putBoolean("isLogin", false).apply();
 
+                Intent intent = new Intent(ProfileActivity.this, Login.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
 }
