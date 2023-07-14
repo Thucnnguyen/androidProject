@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".model.Cart">
+    tools:context=".model.Cart"
+    android:id="@+id/cart">
 
 
     <androidx.cardview.widget.CardView
@@ -42,14 +43,33 @@
                 android:id="@+id/checkout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 android:layout_alignParentBottom="true"
                 android:layout_centerInParent="true"
                 android:layout_marginStart="-21dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="95dp"
                 android:layout_marginRight="30dp"
+                android:layout_marginBottom="7dp"
                 android:background="@android:color/holo_red_dark"
                 android:text="Check out"
                 android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+
+                android:layout_centerInParent="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="95dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="6dp"
+                android:layout_toEndOf="@id/checkout"
+                android:background="@android:color/holo_red_dark"
+                android:text="Clear Cart"
+                android:textColor="@android:color/white" />
+
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 

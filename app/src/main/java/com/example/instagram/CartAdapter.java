@@ -72,7 +72,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         });
 
         holder.btnMinusOne.setOnLongClickListener(v -> {
-            context.RemoveFromCart(cart, -1);
+            context.RemoveFromCart(cart, 999);
             return true;
         });
     }
@@ -110,7 +110,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView ivProduct;
         TextView tvName, tvPrice, tvQuantity;
-        ImageButton btnAddOne, btnMinusOne;
+        ImageButton btnAddOne, btnMinusOne,remove;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -122,6 +122,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
             btnAddOne = itemView.findViewById(R.id.btnAddOne);
             btnMinusOne = itemView.findViewById(R.id.btnMinusOne);
+            
         }
     }
+
 }

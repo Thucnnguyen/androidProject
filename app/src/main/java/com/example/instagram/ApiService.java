@@ -71,8 +71,8 @@ public interface ApiService {
     @PUT("Cart_items/{cart_Id}")
     Call<Cart_items> updateCartItems2(@Path("cart_Id") int cartId, @Body Cart_items item);
 
-    @DELETE("Cart_items")
-    Call<Void> deleteCartItems(@Query("ProductID") int ProductID);
+    @DELETE("Cart_items/{ProductID}")
+    Call<Void> deleteCartItems(@Path("ProductID") int ProductID);
 
 
     @GET("Orders")
