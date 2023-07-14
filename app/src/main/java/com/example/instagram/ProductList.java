@@ -120,7 +120,8 @@ public class ProductList extends AppCompatActivity {
                     // Handle History item click
                     return true;
                 } else if (item.getItemId() == R.id.person) {
-                    // Handle Profile item click
+                    Intent intent = new Intent(ProductList.this, ProfileActivity.class);
+                    startActivity(intent);
                     return true;
                 } else if (item.getItemId() == R.id.cart) {
                     // Handle Cart item click

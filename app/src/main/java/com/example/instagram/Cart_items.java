@@ -4,7 +4,7 @@ public class Cart_items {
     private int customerId;
     private String CustomerID;
     private int ProductID;
-    private int Quantity;
+    public int Quantity;
     private int id;
 
     public Cart_items() {

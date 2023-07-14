@@ -26,6 +26,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public List<Product> products;
     public ArrayList<Cart_items> cartItemList;
     public activity_cartlist context;
+    int extendedPrice;
+
 
     public CartAdapter(activity_cartlist context, ArrayList<Cart_items> cartItemList, List<Product> products) {
         this.context = context;
@@ -55,12 +57,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         new DownloadImageTask(holder.ivProduct).execute(product.getImage());
         holder.tvName.setText(product.getName());
         holder.tvPrice.setText("Price : " + product.getPrice() * cart.getQuantity() + "$");
-        holder.tvQuantity.setText(cart.getQuantity() * product.getPrice() + "");
+        holder.tvQuantity.setText(cart.getQuantity()+"");
+
+
 
 
         holder.btnAddOne.setOnClickListener(v -> {
 
-            context.AddToCart(cart.getProductID(), cart.getQuantity());
+            context.AddToCart(cart, 1);
         });
 
         holder.btnMinusOne.setOnClickListener(v -> {
@@ -68,7 +72,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         });
 
         holder.btnMinusOne.setOnLongClickListener(v -> {
-            context.RemoveFromCart(cart, 9999);
+            context.RemoveFromCart(cart, -1);
             return true;
         });
     }

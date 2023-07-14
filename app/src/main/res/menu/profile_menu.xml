@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/profile_edit_btn"
+        android:title="Edit profile" />
+    <item
+        android:id="@+id/profile_logout_btn"
+        android:title="Logout" />
+    <!-- Add more menu items here -->
+</menu>

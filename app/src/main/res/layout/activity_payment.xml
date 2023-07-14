@@ -8,9 +8,21 @@
 
     <!-- activity_payment.xml -->
     <RelativeLayout
+        android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:padding="16dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_return"
+            style="@style/button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/ic_back_black"
+            android:textColor="#000" />
 
         <ImageView
             android:id="@+id/imageViewCardLogo"
@@ -88,8 +100,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewProducts"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/textViewTotalPrice"
@@ -128,21 +139,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- Momo -->
+                <!-- Paypal -->
                 <RadioButton
-                    android:id="@+id/radioButtonCreditCard"
+                    android:id="@+id/radioButtonPaypal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:text="Momo"
+                    android:text="Paypal"
                     android:textSize="16sp"
-                    android:textColor="@android:color/black">
-
-                </RadioButton>
+                    android:textColor="@android:color/black"/>
 
                 <!-- Ship COD -->
                 <RadioButton
-                    android:id="@+id/radioButtonGooglePay"
+                    android:id="@+id/radioButtonShipCOD"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Ship COD"
@@ -169,19 +178,19 @@
                 android:layout_width="50dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="24dp"
-                android:src="@drawable/momo" />
+                android:src="@drawable/paypalpng" />
             <ImageView
                 android:id="@+id/imageViewShipCod"
                 android:layout_width="50dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="0dp"
                 android:src="@drawable/shipcod" />
 
         </LinearLayout>
 
         <!-- Payment Button -->
         <Button
-            android:id="@+id/buttonPay"
+            android:id="@+id/payment_button_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/linearLayoutPaymentMethod"

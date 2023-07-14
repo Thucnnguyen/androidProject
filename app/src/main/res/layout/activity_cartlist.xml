@@ -28,28 +28,18 @@
                 android:text="YOUR CART"/>
 
 
-
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_below="@+id/orderSummary"
                 android:id="@+id/rcv"
-                android:text="@string/app_name"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_below="@+id/orderSummary"
+
+                android:layout_marginStart="37dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/app_name" />
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp"
-                android:layout_centerInParent="true"
-                android:text="Check Out"
-                android:textColor="@android:color/white"
-                android:background="@android:color/holo_red_dark"
                 android:id="@+id/checkout"
-                android:layout_alignParentBottom="true"/>
-
-            <Button
-                android:id="@+id/clearthedatabase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -57,9 +47,8 @@
                 android:layout_marginStart="-21dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_toEndOf="@+id/checkout"
                 android:background="@android:color/holo_red_dark"
-                android:text="Clear Cart"
+                android:text="Check out"
                 android:textColor="@android:color/white" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

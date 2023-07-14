@@ -4,8 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.instagram.model.Customer;
@@ -24,9 +29,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class activity_cartlist extends AppCompatActivity {
     public static activity_cartlist context;
     Customer customer = new Customer();
-
+    int customerId;
     public List<Product> products = new ArrayList<>();
-
+    private Button checkOut;
     Toast toast;
     CartAdapter cartAdapter;
     RecyclerView rvCarts;
@@ -41,6 +46,9 @@ public class activity_cartlist extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cartlist);
         context= this;
+        SharedPreferences sharedPreferences;
+        sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
+        customerId = sharedPreferences.getInt("customerId", 0);
         Init();
 
     }
@@ -52,18 +60,24 @@ public class activity_cartlist extends AppCompatActivity {
 
 
     public void GetCart() {
-
+        SharedPreferences sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
+        int cusId =sharedPreferences.getInt("customerId", -1);
         Call<List<Cart_items>> call = apiService.getCartItems();
 
         call.enqueue(new Callback<List<Cart_items>>() {
             @Override
             public void onResponse(Call<List<Cart_items>> call, Response<List<Cart_items>> response) {
-//                Collections.addAll(cart_items, response.body());
-                List<Cart_items> cartItems= response.body();
+
                 if(response.isSuccessful()){
-                    cart_items = new ArrayList<>(cartItems);
+                    List<Cart_items> cartItems= response.body();
+                    for (Cart_items c: cartItems
+                         ) {
+                        if(c.getCustomerId() == cusId){
+                            Log.d("cartItem_info", c.toString());
+                            cart_items.add(c);
+                        }
+                    }
                 }
-//                    CaclulateTotal();
                 cartAdapter.notifyDataSetChanged();
             }
 
@@ -79,12 +93,19 @@ public class activity_cartlist extends AppCompatActivity {
         rvCarts.setLayoutManager(new LinearLayoutManager(this));
         cartAdapter = new CartAdapter(context, cart_items, products);
         rvCarts.setAdapter(cartAdapter);
+        checkOut = (Button) findViewById(R.id.checkout);
         Call call = apiService.getAllProduct();
-
+        checkOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity_cartlist.this, PaymentActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         call.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-//                    Collections.addAll(products, response.body());
                 products.clear();
                 products.addAll(response.body());
                 Log.d("data", products.toString());
@@ -99,11 +120,9 @@ public class activity_cartlist extends AppCompatActivity {
         });
 
     }
-    public void AddToCart(int productID, int quantity) {
-        String customerId = customer.getId();
-        int id = 1;
-        Cart_items cart_items1 = new Cart_items(customerId,productID,quantity,id);
-        apiService.addCartItems(cart_items1).enqueue(new Callback<Cart_items>() {
+    public void AddToCart(Cart_items cart, int quantity) {
+        cart.Quantity += quantity;
+        apiService.updateCartItems2(cart.getId(),cart).enqueue(new Callback<Cart_items>() {
             @Override
             public void onResponse(Call<Cart_items> call, Response<Cart_items> response) {
                 try {
@@ -111,9 +130,7 @@ public class activity_cartlist extends AppCompatActivity {
                         toast(response.errorBody().string());
                         return;
                     }
-
-                    toast("Added item to cart!");
-                    GetCart();
+                    cartAdapter.notifyDataSetChanged();
                 } catch (Exception e) {
 
                 }
@@ -124,29 +141,24 @@ public class activity_cartlist extends AppCompatActivity {
 
             }
         });
-
     }
 
     public void RemoveFromCart(Cart_items cart, int quantity) {
-//        cart.getQuantity() -= quantity;
+        cart.Quantity -= quantity;
         if (cart.getQuantity() > 0) {
-            apiService.updateCartItems(cart.getProductID(), cart.getQuantity()).enqueue(new Callback<Cart_items>() {
+            apiService.updateCartItems2(cart.getId(),cart).enqueue(new Callback<Cart_items>() {
                 @Override
                 public void onResponse(Call<Cart_items> call, Response<Cart_items> response) {
                     try {
                         if (!response.isSuccessful()) {
-                            toast(response.errorBody().string());
+                            toast(response.message());
                             return;
                         }
-
-                        toast("Removed 1 from cart!");
-//                        CaclulateTotal();
                         cartAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
 
                     }
                 }
-
                 @Override
                 public void onFailure(Call<Cart_items> call, Throwable t) {
 
@@ -165,7 +177,6 @@ public class activity_cartlist extends AppCompatActivity {
 
                         toast("Deleted item from cart!");
                         products.remove(cart);
-//                        CaclulateTotal();
                         cartAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
 
@@ -181,6 +192,12 @@ public class activity_cartlist extends AppCompatActivity {
     }
 
 //    public void CaclulateTotal() {
-//        tvTotal.setText("Total : " + carts.stream().mapToDouble(p -> p.quantity * p.product.price).sum());
+//        TextView total = findViewById(R.id.total);
+//        Product product = new Product();
+//        Cart_items cart = new Cart_items();
+//        int overTotalPrice = 0;
+//        int oneTypeProductPrice = (int) (((Float.valueOf(product.getPrice())) * Integer.valueOf(cart.getQuantity())));
+//        overTotalPrice = oneTypeProductPrice + overTotalPrice;
+//        total.setText("Total: " + Integer.valueOf(overTotalPrice) +"$");
 //    }
 }

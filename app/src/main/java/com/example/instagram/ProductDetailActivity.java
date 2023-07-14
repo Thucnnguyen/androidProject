@@ -1,6 +1,8 @@
 package com.example.instagram;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,9 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.instagram.model.Location;
 import com.example.instagram.model.Product;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -31,7 +35,10 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     // test get product id to show product detail
     int productId;
+    private LocationAdapter adapter;
     // test get product id to show product detail
+    private RecyclerView locationItm;
+    private Button btnBack;
 
     private int quantity = 1;
 
@@ -47,7 +54,13 @@ public class ProductDetailActivity extends AppCompatActivity {
         TextView quantityTextView = findViewById(R.id.quantity);
         ImageView plusImageView = findViewById(R.id.plusQuantity);
         ImageView minusImageView = findViewById(R.id.imageView8);
-
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        adapter = new LocationAdapter(this);
+        locationItm = findViewById(R.id.locationRecyclerView);
+        btnBack = findViewById(R.id.button_return);
+        locationItm.setLayoutManager(linearLayoutManager);
+        locationItm.setAdapter(adapter);
+        getData();
         // Set click listener for the plus ImageView
         plusImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +87,13 @@ public class ProductDetailActivity extends AppCompatActivity {
                 }
             }
         });
-
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                finish();
+            }
+        });
 
         productId = getIntent().getIntExtra("productId", -1);
 
@@ -133,19 +152,20 @@ public class ProductDetailActivity extends AppCompatActivity {
                             if (items != null) {
                                 for (Cart_items c : items
                                 ) {
-                                    if (c.getProductID() == productId || c.getCustomerId() == cusId) {
+                                    if (c.getProductID() == productId && c.getCustomerId() == cusId) {
                                         searchCart = c;
+                                        break;
                                     }
                                 }
                             }
                             if (searchCart != null) {
-                                searchCart.setQuantity(searchCart.getQuantity() + 1);
-                                Call<ResponseBody> updateCart = apiService.updateCartItems(productId, searchCart);
+                                searchCart.setQuantity(searchCart.getQuantity() + quantity);
+                                Call<ResponseBody> updateCart = apiService.updateCartItems(searchCart.getId(), searchCart);
                                 updateCart.enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                         if (response.isSuccessful()) {
-                                            Toasty.info(ProductDetailActivity.this, "Add Success", Toast.LENGTH_SHORT).show();
+                                            Toasty.info(ProductDetailActivity.this, "Add Success1", Toast.LENGTH_SHORT).show();
                                             startActivity(intent);
                                         }
                                     }
@@ -157,14 +177,13 @@ public class ProductDetailActivity extends AppCompatActivity {
                                     }
                                 });
                             } else {
-                                Call<Cart_items> add = apiService.addCartItems(new Cart_items(cusId, productId, 1));
+                                Call<Cart_items> add = apiService.addCartItems(new Cart_items(cusId, productId, quantity));
                                 add.enqueue(new Callback<Cart_items>() {
                                     @Override
                                     public void onResponse(Call<Cart_items> call, Response<Cart_items> response) {
                                         if (response.isSuccessful()) {
                                             Toasty.info(ProductDetailActivity.this, "Add Success", Toast.LENGTH_SHORT).show();
                                             startActivity(intent);
-
                                         }
                                     }
 
@@ -184,10 +203,46 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                     }
                 });
-                startActivity(intent);
-                activity_cartlist a = new activity_cartlist();
-                Product prod = new Product();
-                a.AddToCart(productId, quantity);
+//                startActivity(intent);
+//                activity_cartlist a = new activity_cartlist();
+////                Product prod = new Product();
+//                a.AddToCart(productId, quantity);
+            }
+        });
+    }
+    private void getData(){
+        productId = getIntent().getIntExtra("productId", -1);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ApiService apiService = retrofit.create(ApiService.class);
+        Call<List<Location>> call = apiService.getLocations();
+        call.enqueue(new Callback<List<Location>>() {
+            @Override
+            public void onResponse(Call<List<Location>> call, Response<List<Location>> response) {
+                if (response.isSuccessful()) {
+                    List<Location> locations = response.body();
+                    List<Location> locationByid = new ArrayList<>();
+                    if (locations != null) {
+                        for (Location l:locations
+                             ) {
+                            if(l.getProductId() == productId){
+                                locationByid.add(l);
+                                Log.d("lo", l.getAddress());
+                            }
+                        }
+                        adapter.setData(locationByid);  // Update the adapter's data
+                        adapter.notifyDataSetChanged();
+                    }
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Location>> call, Throwable t) {
+
             }
         });
     }
