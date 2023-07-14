@@ -64,7 +64,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         holder.btnAddOne.setOnClickListener(v -> {
 
-            context.AddToCart(cart.getProductID(), cart.Quantity++);
+            context.AddToCart(cart, 1);
         });
 
         holder.btnMinusOne.setOnClickListener(v -> {

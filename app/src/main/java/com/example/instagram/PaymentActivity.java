@@ -86,13 +86,13 @@ public class PaymentActivity extends AppCompatActivity {
     int PAYPAL_REQUEST_CODE = 123;
     SharedPreferences sharedPreferences;
     private Button paymentButton, btnReturn;
-
+    private int customerId;
     public static PayPalConfiguration configuration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
+//        sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
         setContentView(R.layout.activity_payment);
         textViewCustName = findViewById(R.id.textViewUserName);
         textViewCustPhone = findViewById(R.id.textViewPhone);
@@ -106,8 +106,10 @@ public class PaymentActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroupPaymentMethod);
 
 
-        int customerId = sharedPreferences.getInt("customerId", 0);
-
+        SharedPreferences sharedPreferences;
+        sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
+        customerId = sharedPreferences.getInt("customerId", 0);
+        Log.d("cusInCart", String.valueOf(customerId));
         btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,7 +161,6 @@ public class PaymentActivity extends AppCompatActivity {
         ApiService apiService = retrofit.create(ApiService.class);
         // Call the API endpoint
         Call call = apiService.getCartItems();
-
         // Execute the API call asynchronously
         call.enqueue(new Callback<List<Cart_items>>() {
             @Override
@@ -337,9 +338,9 @@ public class PaymentActivity extends AppCompatActivity {
         ApiService apiService = retrofit.create(ApiService.class);
         // Call the API endpoint
         Call<Void> call;
-        for (Cart_items item : items ){
-            if(item.getCustomerId() == customerId){
-                call = apiService.deleteCartItemsById(""+item.getId());
+        for (Cart_items item : items) {
+            if (item.getCustomerId() == customerId) {
+                call = apiService.deleteCartItemsById("" + item.getId());
 
                 // Execute the API call asynchronously
                 call.enqueue(new Callback<Void>() {
@@ -356,9 +357,6 @@ public class PaymentActivity extends AppCompatActivity {
                 });
             }
         }
-
-
-
 
 
     }

@@ -3,6 +3,7 @@ package com.example.instagram;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,13 +66,13 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordLi
             public void onClick(View v) {
                 SharedPreferences sharedPreferences = mContext.getSharedPreferences("MyApp", Context.MODE_PRIVATE);
                 int cusId = sharedPreferences.getInt("customerId", -1);
-
+                Log.d("cusId", String.valueOf(cusId));
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 ApiService apiService = retrofit.create(ApiService.class);
-                Call<List<Cart_items>> call = apiService.getCartItems(cusId);
+                Call<List<Cart_items>> call = apiService.getCartItems();
                 call.enqueue(new Callback<List<Cart_items>>() {
                     @Override
                     public void onResponse(Call<List<Cart_items>> call, Response<List<Cart_items>> response) {
@@ -81,19 +82,20 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordLi
                             if(items!=null){
                                 for (Cart_items c: items
                                      ) {
-                                    if(c.getProductID() == item.getId() || c.getCustomerId() == cusId){
+                                    if(c.getProductID() == item.getId() && c.getCustomerId() == cusId){
                                         searchCart = c;
+                                        break;
                                     }
                                 }
                             }
                             if(searchCart!=null) {
                                 searchCart.setQuantity(searchCart.getQuantity() + 1);
-                                Call<ResponseBody> updateCart = apiService.updateCartItems(item.getId(), searchCart);
+                                Call<ResponseBody> updateCart = apiService.updateCartItems(searchCart.getId(), searchCart);
                                 updateCart.enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                         if (response.isSuccessful()) {
-                                            Toasty.info(mContext, "Add Success", Toast.LENGTH_SHORT).show();
+                                            Toasty.info(mContext, "Add Success1", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 
@@ -110,7 +112,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordLi
                                     @Override
                                     public void onResponse(Call<Cart_items> call, Response<Cart_items> response) {
                                         if(response.isSuccessful()){
-                                            Toasty.info(mContext ,"Add Success", Toast.LENGTH_SHORT).show();
+                                            Toasty.info(mContext ,"Add Success2", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 

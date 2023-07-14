@@ -1,6 +1,8 @@
 package com.example.instagram;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,9 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.instagram.model.Location;
 import com.example.instagram.model.Product;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -31,7 +35,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     // test get product id to show product detail
     int productId;
+    private LocationAdapter adapter;
     // test get product id to show product detail
+    private RecyclerView locationItm;
 
     private int quantity = 1;
 
@@ -47,7 +53,13 @@ public class ProductDetailActivity extends AppCompatActivity {
         TextView quantityTextView = findViewById(R.id.quantity);
         ImageView plusImageView = findViewById(R.id.plusQuantity);
         ImageView minusImageView = findViewById(R.id.imageView8);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        adapter = new LocationAdapter(this);
+        locationItm = findViewById(R.id.locationRecyclerView);
 
+        locationItm.setLayoutManager(linearLayoutManager);
+        locationItm.setAdapter(adapter);
+        getData();
         // Set click listener for the plus ImageView
         plusImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +135,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 ApiService apiService = retrofit.create(ApiService.class);
-                Call<List<Cart_items>> call = apiService.getCartItems(cusId);
+                Call<List<Cart_items>> call = apiService.getCartItems();
                 call.enqueue(new Callback<List<Cart_items>>() {
                     @Override
                     public void onResponse(Call<List<Cart_items>> call, Response<List<Cart_items>> response) {
@@ -188,6 +200,42 @@ public class ProductDetailActivity extends AppCompatActivity {
 //                activity_cartlist a = new activity_cartlist();
 ////                Product prod = new Product();
 //                a.AddToCart(productId, quantity);
+            }
+        });
+    }
+    private void getData(){
+        productId = getIntent().getIntExtra("productId", -1);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ApiService apiService = retrofit.create(ApiService.class);
+        Call<List<Location>> call = apiService.getLocations();
+        call.enqueue(new Callback<List<Location>>() {
+            @Override
+            public void onResponse(Call<List<Location>> call, Response<List<Location>> response) {
+                if (response.isSuccessful()) {
+                    List<Location> locations = response.body();
+                    List<Location> locationByid = new ArrayList<>();
+                    if (locations != null) {
+                        for (Location l:locations
+                             ) {
+                            if(l.getProductId() == productId){
+                                locationByid.add(l);
+                                Log.d("lo", l.getAddress());
+                            }
+                        }
+                        adapter.setData(locationByid);  // Update the adapter's data
+                        adapter.notifyDataSetChanged();
+                    }
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Location>> call, Throwable t) {
+
             }
         });
     }
