@@ -3,6 +3,8 @@ package com.example.instagram;
 import com.example.instagram.model.Cart;
 import com.example.instagram.model.Customer;
 import com.example.instagram.model.Location;
+import com.example.instagram.model.Order;
+import com.example.instagram.model.Order_Item;
 import com.example.instagram.model.Product;
 
 import java.util.List;
@@ -50,6 +52,9 @@ public interface ApiService {
     Call<List<Location>> getLocations();
     @GET("Cart_items")
     Call<Cart_items[]> getCartItem();
+//    @GET("Cart_items")
+//    Call<List<Cart_items>> getCartItems();
+
 
 
     @PUT("Cart_items/{id}")
@@ -69,4 +74,12 @@ public interface ApiService {
 
     @DELETE("Cart_items/{id}")
     Call<Void> deleteCartItemsById(@Path("id") String id);
+
+    @POST("Orders")
+    Call<Order> addOrder(@Body Order order);
+    @GET("Orders")
+    Call<List<Order>> getOrder();
+
+    @POST("Order_items")
+    Call<Order_Item> addOrderItem(@Body Order_Item order_item);
 }

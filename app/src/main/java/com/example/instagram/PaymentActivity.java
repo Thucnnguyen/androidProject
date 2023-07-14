@@ -22,7 +22,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -42,6 +45,8 @@ import okhttp3.OkHttpClient;
 import android.widget.Toast;
 
 import com.example.instagram.model.Customer;
+import com.example.instagram.model.Order;
+import com.example.instagram.model.Order_Item;
 import com.example.instagram.model.Product;
 
 import com.google.gson.JsonObject;
@@ -167,7 +172,14 @@ public class PaymentActivity extends AppCompatActivity {
             public void onResponse(Call<List<Cart_items>> call, Response<List<Cart_items>> response) {
                 if (response.isSuccessful()) {
 
-                    List<Cart_items> items = response.body();
+                    List<Cart_items> allitems = response.body();
+                    List<Cart_items> items = new ArrayList<>();
+                    for (Cart_items c: allitems
+                         ) {
+                        if(c.getCustomerId() == customerId) {
+                            items.add(c);
+                        }
+                    }
                     Call productCall = apiService.getAllProduct();
 
                     productCall.enqueue(new Callback<List<Product>>() {
@@ -175,7 +187,6 @@ public class PaymentActivity extends AppCompatActivity {
                         public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                             if (response.isSuccessful()) {
                                 List<Product> products = response.body();
-                                Toast.makeText(PaymentActivity.this, "" + products.size(), Toast.LENGTH_SHORT).show();
                                 // Process the retrieved products here
                                 // Create a LinearLayoutManager with the desired orientation
                                 LinearLayoutManager layoutManager = new LinearLayoutManager(PaymentActivity.this, LinearLayoutManager.VERTICAL, false);
@@ -200,9 +211,31 @@ public class PaymentActivity extends AppCompatActivity {
                                         if (paypalBtn.isChecked()) {
                                             getPayment("" + totalPrice);
                                         } else if (shipCodBtn.isChecked()) {
-                                            DeleteCart(items, customerId);
-                                            Intent intent = new Intent(PaymentActivity.this, ProductList.class);
-                                            startActivity(intent);
+                                            AddToOrder(items, products, customerId);
+//                                            Call<List<Order>> orderCall = apiService.getOrder();
+//
+//                                            orderCall.enqueue(new Callback<List<Order>>() {
+//                                                @Override
+//                                                public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
+//                                                    if (response.isSuccessful()) {
+//                                                        List<Order> orders = response.body();
+//                                                        for (Order order : orders) {
+//
+//                                                            if (order.getCustomer_id() == customerId) {
+//                                                                Toast.makeText(PaymentActivity.this, "" + order.getId(), Toast.LENGTH_SHORT).show();
+//                                                                AddOrderItem(items, products, customerId, order.getId());
+//                                                            }
+//                                                        }
+//                                                    }
+//                                                }
+//
+//                                                @Override
+//                                                public void onFailure(Call<List<Order>> call, Throwable t) {
+//                                                    Toast.makeText(PaymentActivity.this, "Failed =(((" , Toast.LENGTH_SHORT).show();
+//                                                }
+//                                            });
+
+
                                         }
 
                                         // Disable the submit button after processing the selection
@@ -358,6 +391,75 @@ public class PaymentActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    private void AddToOrder(List<Cart_items> items, List<Product> products, int customerId) {
+        Calendar calendar = Calendar.getInstance();
+        Order order = new Order(customerId, "Processing", calendar.getTime().toString());
+        // Retrofit initialization
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        // Create an instance of the API service
+        ApiService apiService = retrofit.create(ApiService.class);
+        // Call the API endpoint
+        Call<Order> call = apiService.addOrder(order);
+
+
+        // Execute the API call asynchronously
+        call.enqueue(new Callback<Order>() {
+            @Override
+            public void onResponse(Call<Order> call, Response<Order> response) {
+                if (response.isSuccessful()) {
+                    Order order = response.body();
+                    AddOrderItem(items, products, customerId, order.getId());
+                    Intent intent = new Intent(PaymentActivity.this, activity_order_success.class);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Order> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private void AddOrderItem(List<Cart_items> items, List<Product> products, int customerId, int order_id) {
+        Order_Item order_item = new Order_Item();
+        // Retrofit initialization
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        // Create an instance of the API service
+        ApiService apiService = retrofit.create(ApiService.class);
+        for (Cart_items item : items) {
+            if (item.getCustomerId() == customerId) {
+                for (Product product : products) {
+                    if (item.getProductID() == product.getId()) {
+                        order_item = new Order_Item(order_id, item.getProductID(), item.getQuantity(), item.getQuantity() * product.getPrice());
+                        // Call the API endpoint
+                        Call call = apiService.addOrderItem(order_item);
+                        call.enqueue(new Callback<Order_Item>() {
+                            @Override
+                            public void onResponse(Call<Order_Item> call, Response<Order_Item> response) {
+                                if (response.isSuccessful()) {
+                                    DeleteCart(items, customerId);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Order_Item> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                }
+            }
+        }
 
     }
 
