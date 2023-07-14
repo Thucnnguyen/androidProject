@@ -93,4 +93,13 @@ public class Order {
 //        this.staff_id = staffId;
 //        this.store_id = storeId;
     }
+    public Order( int customerId, String oderStatus, Long orderDate) {
+
+        this.customer_id = customerId;
+        this.order_status = oderStatus;
+        this.order_date = orderDate;
+//        this.ship_date = shipDate;
+//        this.staff_id = staffId;
+//        this.store_id = storeId;
+    }
 }
