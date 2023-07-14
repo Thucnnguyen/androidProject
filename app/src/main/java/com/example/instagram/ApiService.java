@@ -2,6 +2,8 @@ package com.example.instagram;
 
 import com.example.instagram.model.Cart;
 import com.example.instagram.model.Customer;
+import com.example.instagram.model.Order;
+import com.example.instagram.model.OrderItem;
 import com.example.instagram.model.Product;
 
 import java.util.List;
@@ -57,5 +59,17 @@ public interface ApiService {
     @DELETE("Cart_items")
 
     Call<Void> deleteCartItems(@Query("ProductID") int ProductID);
+
+
+    @GET("Orders")
+    Call<List<Order>> getOrders();
+    @GET("Orders")
+    Call<List<Order>> getOrdersByCustomerId(@Query("customer_id") int customerId);
+//    @GET("Order_items")
+//    Call<List<OrderItem>> getOrderItemsByOrderId(@Query("order_id") int orderId);
+
+
+    @GET("Order_items")
+    Call<List<OrderItem>> getOrderItemsByOrderId(@Query("order_id") int orderId);
 
 }
