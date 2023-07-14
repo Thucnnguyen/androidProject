@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.instagram.model.Order;
 import com.example.instagram.model.OrderItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -86,16 +87,25 @@ private TextView orderStatus;
             public void onResponse(Call<List<OrderItem>> call, Response<List<OrderItem>> response) {
                 if (response.isSuccessful()) {
                     List<OrderItem> products = response.body();
+                    List<OrderItem> filteredProducts = new ArrayList<>();
+
+                    for (OrderItem item : products) {
+                        if (item.getOrderId() == orderId) {
+                            filteredProducts.add(item);
+                        }
+                    }
+
+
                     Log.d("orderDetailSize,:", String.valueOf(products.size()));
                     TextView totalPrice = findViewById(R.id.totalPrice);
                     double total = 0;
-                    for (int i = 0; i <  products.size(); i++) {
-                        total += products.get(i).getPrice() * products.get(i).getQuantity() - products.get(i).getDiscount();
+                    for (int i = 0; i <  filteredProducts.size(); i++) {
+                        total += filteredProducts.get(i).getPrice() * products.get(i).getQuantity() - products.get(i).getDiscount();
                     }
                     totalPrice.setText(String.valueOf(total));
-                    if (products != null) {
+                    if (filteredProducts != null) {
                         Log.d("TEST", String.valueOf(products.size()));
-                        adapter.setData(products);  // Update the adapter's data
+                        adapter.setData(filteredProducts);  // Update the adapter's data
                         adapter.notifyDataSetChanged();
                     }
                 } else {
