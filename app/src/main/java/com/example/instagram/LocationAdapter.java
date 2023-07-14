@@ -1,6 +1,8 @@
 package com.example.instagram;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +42,12 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
     public void onBindViewHolder(@NonNull LocationViewHolder holder, int position) {
         Location location = locations.get(position);
         holder.locationTextView.setText(location.getAddress());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGoogleMaps(location.getAddress());
+            }
+        });
     }
 
     @Override
@@ -59,5 +67,11 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
         public void bind(String location) {
             locationTextView.setText(location);
         }
+    }
+    private void openGoogleMaps(String address) {
+        Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + Uri.encode(address));
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        mContext.startActivity(mapIntent);
     }
 }

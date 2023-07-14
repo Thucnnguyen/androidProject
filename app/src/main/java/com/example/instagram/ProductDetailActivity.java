@@ -38,6 +38,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private LocationAdapter adapter;
     // test get product id to show product detail
     private RecyclerView locationItm;
+    private Button btnBack;
 
     private int quantity = 1;
 
@@ -56,7 +57,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         adapter = new LocationAdapter(this);
         locationItm = findViewById(R.id.locationRecyclerView);
-
+        btnBack = findViewById(R.id.button_return);
         locationItm.setLayoutManager(linearLayoutManager);
         locationItm.setAdapter(adapter);
         getData();
@@ -86,7 +87,13 @@ public class ProductDetailActivity extends AppCompatActivity {
                 }
             }
         });
-
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                finish();
+            }
+        });
 
         productId = getIntent().getIntExtra("productId", -1);
 
@@ -145,19 +152,20 @@ public class ProductDetailActivity extends AppCompatActivity {
                             if (items != null) {
                                 for (Cart_items c : items
                                 ) {
-                                    if (c.getProductID() == productId || c.getCustomerId() == cusId) {
+                                    if (c.getProductID() == productId && c.getCustomerId() == cusId) {
                                         searchCart = c;
+                                        break;
                                     }
                                 }
                             }
                             if (searchCart != null) {
-                                searchCart.setQuantity(searchCart.getQuantity() + 1);
-                                Call<ResponseBody> updateCart = apiService.updateCartItems(productId, searchCart);
+                                searchCart.setQuantity(searchCart.getQuantity() + quantity);
+                                Call<ResponseBody> updateCart = apiService.updateCartItems(searchCart.getId(), searchCart);
                                 updateCart.enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                         if (response.isSuccessful()) {
-                                            Toasty.info(ProductDetailActivity.this, "Add Success", Toast.LENGTH_SHORT).show();
+                                            Toasty.info(ProductDetailActivity.this, "Add Success1", Toast.LENGTH_SHORT).show();
                                             startActivity(intent);
                                         }
                                     }
@@ -176,7 +184,6 @@ public class ProductDetailActivity extends AppCompatActivity {
                                         if (response.isSuccessful()) {
                                             Toasty.info(ProductDetailActivity.this, "Add Success", Toast.LENGTH_SHORT).show();
                                             startActivity(intent);
-
                                         }
                                     }
 

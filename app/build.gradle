@@ -56,6 +56,7 @@ dependencies {
     implementation 'com.paypal.checkout:android-sdk:1.0.0'
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation('com.paypal.sdk:paypal-android-sdk:2.16.0')
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-wallet:8.4.0'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'

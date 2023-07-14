@@ -72,8 +72,10 @@ public class activity_cartlist extends AppCompatActivity {
                     List<Cart_items> cartItems= response.body();
                     for (Cart_items c: cartItems
                          ) {
-                        Log.d("cartItem_info", c.toString());
-                        cart_items.add(c);
+                        if(c.getCustomerId() == cusId){
+                            Log.d("cartItem_info", c.toString());
+                            cart_items.add(c);
+                        }
                     }
                 }
                 cartAdapter.notifyDataSetChanged();
