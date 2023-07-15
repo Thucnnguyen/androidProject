@@ -103,14 +103,14 @@ public class activity_cartlist extends AppCompatActivity {
         clear = (Button) findViewById(R.id.clear);
         back = (ImageButton)findViewById(R.id.back);
         Call call = apiService.getAllProduct();
-//        checkOut.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(activity_cartlist.this, PaymentActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
+        checkOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity_cartlist.this, PaymentActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         clear.setOnClickListener(v -> {
             SharedPreferences sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
             int cusId =sharedPreferences.getInt("customerId", -1);
