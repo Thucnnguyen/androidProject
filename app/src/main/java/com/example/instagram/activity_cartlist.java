@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.instagram.model.Customer;
@@ -36,7 +38,8 @@ public class activity_cartlist extends AppCompatActivity {
     Toast toast;
     CartAdapter cartAdapter;
     RecyclerView rvCarts;
-    ViewGroup cart;
+
+    ImageButton back;
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
@@ -98,6 +101,7 @@ public class activity_cartlist extends AppCompatActivity {
         rvCarts.setAdapter(cartAdapter);
         checkOut = (Button) findViewById(R.id.checkout);
         clear = (Button) findViewById(R.id.clear);
+        back = (ImageButton)findViewById(R.id.back);
         Call call = apiService.getAllProduct();
 //        checkOut.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -113,6 +117,11 @@ public class activity_cartlist extends AppCompatActivity {
             context.DeleteCart(cart_items,cusId);
             this.recreate();
         });
+        back.setOnClickListener(v ->  {
+
+                onBackPressed();
+                finish();
+            });
         call.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
