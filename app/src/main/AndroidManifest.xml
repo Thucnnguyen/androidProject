@@ -45,32 +45,23 @@
 
         <activity
             android:name=".ProfileActivity"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
         </activity>
         <activity
             android:name=".EditProfileActivity"
             android:exported="false"></activity>
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.MAIN" /> -->
-        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-        <!-- </intent-filter> -->
 
         <activity
             android:name=".activity_cartlist"
             android:exported="false" />
-        <!--        <activity-->
-        <!--            android:name=".PaymentActivity"-->
-        <!--             android:exported="false">-->
-
-        <!--        </activity>-->
+        <activity
+            android:name=".PaymentActivity"
+             android:exported="false"/>
         <activity
             android:name=".ProductList"
-            android:exported="false"></activity>
+            android:exported="false">
+
+        </activity>
         <activity
             android:name=".SignUp"
             android:exported="false" />
@@ -100,7 +91,6 @@
 
         </activity>
 
-
                 <activity
                     android:name="com.paypal.pyplcheckout.home.view.activities.PYPLInitiateCheckoutActivity"
                     android:exported="true">
@@ -112,6 +102,7 @@
                     android:exported="true">
                     <!-- Other attributes and configurations -->
                 </activity>
+
     </application>
 
 </manifest>
