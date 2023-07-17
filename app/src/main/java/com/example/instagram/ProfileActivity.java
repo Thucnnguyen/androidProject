@@ -55,6 +55,11 @@ public class ProfileActivity extends AppCompatActivity {
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this, gso);
 
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestEmail()
+//                .build();
+//        googleSignInClient = GoogleSignIn.getClient(this, gso);
+
         SharedPreferences sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
         customerId = sharedPreferences.getInt("customerId", 0);
 
@@ -168,11 +173,20 @@ public class ProfileActivity extends AppCompatActivity {
                     Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
                     startActivity(intent);
                     return true;
+                } else if (item.getItemId() == R.id.profile_change_password_btn) {
+                    Intent intent = new Intent(ProfileActivity.this, EditPasswordActivity.class);
+                    startActivity(intent);
+                    return true;
                 } else if (item.getItemId() == R.id.profile_logout_btn) {
 //                    Intent intent = new Intent(ProfileActivity.this, Login.class);
 //                    startActivity(intent);
 //                    finish();
                     logout();
+                    // SharedPreferences sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
+                    // sharedPreferences.edit().putBoolean("isLogin", false).apply();
+                    // Intent intent = new Intent(ProfileActivity.this, Login.class);
+                    // startActivity(intent);
+                    // finish();
                     return true;
                 } else return false;
             }

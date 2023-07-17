@@ -42,7 +42,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:orientation="horizontal"
         android:gravity="start">
 
@@ -70,7 +70,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:orientation="horizontal"
             android:gravity="start">
 
@@ -99,7 +99,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:orientation="horizontal"
             android:gravity="start">
 
@@ -128,7 +128,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:orientation="horizontal"
             android:gravity="start">
 
@@ -154,34 +154,34 @@
                 android:padding="8dp"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:gravity="start">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="start">-->
 
-            <TextView
-                android:id="@+id/label_password"
-                android:layout_width="125dp"
-                android:layout_height="wrap_content"
-                android:text="Password: "
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:gravity="end"/>
+<!--            <TextView-->
+<!--                android:id="@+id/label_password"-->
+<!--                android:layout_width="125dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Password: "-->
+<!--                android:textSize="22sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:gravity="end"/>-->
 
-            <EditText
-                android:id="@+id/edit_password"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:background="@drawable/edit_profile_border"
-                android:layout_marginStart="20dp"
-                android:text=""
-                android:textSize="19sp"
-                android:padding="8dp"/>
-        </LinearLayout>
+<!--            <EditText-->
+<!--                android:id="@+id/edit_password"-->
+<!--                android:layout_width="250dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="Password"-->
+<!--                android:inputType="textPassword"-->
+<!--                android:background="@drawable/edit_profile_border"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:text=""-->
+<!--                android:textSize="19sp"-->
+<!--                android:padding="8dp"/>-->
+<!--        </LinearLayout>-->
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/edit_confirm"

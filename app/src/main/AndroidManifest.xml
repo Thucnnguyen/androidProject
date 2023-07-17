@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:name="androidx.multidex.MultiDexApplication"
         android:allowBackup="true"
@@ -22,18 +23,17 @@
             android:name=".activity_order_success"
             android:exported="false" />
 
-        tools:targetApi="31">
         <activity
             android:name=".OrderItemActivity"
             android:exported="false" />
         <activity
             android:name=".OrderActivity"
             android:exported="false">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
 
         <meta-data
@@ -42,46 +42,35 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCEYHhlbaeBGh9Lxqm5RPczxdatVgXiZS4" />
+
         <activity
             android:name=".ProfileActivity"
-            android:exported="false">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity
-            android:name=".EditProfileActivity"
-            android:exported="false"></activity>
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-
-            android:exported="false"
-            android:label="@string/title_activity_profile"
-            android:theme="@style/Theme.Instagram" />
-        <activity
-            android:name=".activity_cartlist"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".PaymentActivity"-->
-<!--             android:exported="false">-->
-
-<!--        </activity>-->
-            android:exported="false" />
-        <activity
-            android:name=".ProductList"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".EditProfileActivity"
+            android:exported="false"></activity>
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+
+        <activity
+            android:name=".activity_cartlist"
             android:exported="false" />
+        <!--        <activity-->
+        <!--            android:name=".PaymentActivity"-->
+        <!--             android:exported="false">-->
+
+        <!--        </activity>-->
+        <activity
+            android:name=".ProductList"
+            android:exported="false"></activity>
         <activity
             android:name=".SignUp"
             android:exported="false" />
@@ -93,7 +82,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-            android:exported="false">
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -113,21 +101,17 @@
         </activity>
 
 
+                <activity
+                    android:name="com.paypal.pyplcheckout.home.view.activities.PYPLInitiateCheckoutActivity"
+                    android:exported="true">
+                    <!-- Other attributes and configurations -->
+                </activity>
 
-        <activity
-            android:name="com.paypal.pyplcheckout.home.view.activities.PYPLInitiateCheckoutActivity"
-            android:exported="true">
-            <!-- Other attributes and configurations -->
-        </activity>
-
-        <activity
-            android:name="com.paypal.openid.RedirectUriReceiverActivity"
-            android:exported="true">
-            <!-- Other attributes and configurations -->
-        </activity>
-
-
-            android:exported="false" />
+                <activity
+                    android:name="com.paypal.openid.RedirectUriReceiverActivity"
+                    android:exported="true">
+                    <!-- Other attributes and configurations -->
+                </activity>
     </application>
 
 </manifest>
