@@ -81,7 +81,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PaymentActivity extends AppCompatActivity {
-    private static final String YOUR_CLIENT_ID = "AbPM6WtYhSLQjIN26c0sGrv3wDDA25gYnu4YmDoWMgag9heElje0_hQ0acfAVIZDNugKlcqMfe1EbYWY";
+    private static final String YOUR_CLIENT_ID = "AUgbYXG7U3JiqgKBEtizjd-95MzeK9R1u3Smnl_WnZrrMoJfqXru5CLhQThxCXx68hee_gFFTR-zrDCn";
     private RecyclerView recyclerViewProducts;
     private TextView textViewTotalPrice, textViewCustName, textViewCustPhone, textviewCustAddr;
 
