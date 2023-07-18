@@ -30,8 +30,9 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private Button btnReturn, btnConfirm;
     private String currentEmail;
-    private EditText etxtName, etxtEmail, etxtAddress, etxtPhone, etxtPassword;
+    private EditText etxtName, etxtEmail, etxtAddress, etxtPhone;
     private int customerId;
+    private Customer customer;
 
     private boolean check ;
     @Override
@@ -44,7 +45,6 @@ public class EditProfileActivity extends AppCompatActivity {
         etxtEmail = (EditText) findViewById(R.id.edit_email);
         etxtAddress = (EditText) findViewById(R.id.edit_address);
         etxtPhone = (EditText) findViewById(R.id.edit_phone);
-        etxtPassword = (EditText) findViewById(R.id.edit_password);
 
         btnReturn = (Button) findViewById(R.id.edit_profile_return);
         btnConfirm = (Button) findViewById(R.id.edit_confirm);
@@ -180,16 +180,16 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
-    private boolean ValidatePassword() {
-        String val = etxtPassword.getText().toString();
-
-        if (val.isEmpty()) {
-            etxtPassword.setError("Field cannot be empty");
-            return false;
-        } else {
-            return true;
-        }
-    }
+//    private boolean ValidatePassword() {
+//        String val = etxtPassword.getText().toString();
+//
+//        if (val.isEmpty()) {
+//            etxtPassword.setError("Field cannot be empty");
+//            return false;
+//        } else {
+//            return true;
+//        }
+//    }
 
     private boolean ValidateAddress() {
         String val = etxtAddress.getText().toString();
@@ -202,24 +202,23 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 //
     private void BindingData(Customer cus){
-
+        customer = cus;
         etxtName.setText(cus.getName());
         etxtEmail.setText(cus.getEmail());
         etxtAddress.setText(cus.getAddress());
         etxtPhone.setText(cus.getPhone());
-        etxtPassword.setText(cus.getPassword());
         currentEmail = cus.getEmail();
     }
 
     public void UpdateCustomer(View view) {
-        if (!ValidateName() || !ValidatePhone() || !ValidatePassword() || !ValidateAddress()) {
+        if (!ValidateName() || !ValidatePhone() || !ValidateAddress() ) {
             return;
         }
 
         String fullName = etxtName.getText().toString();
         String email = etxtEmail.getText().toString();
         String phone = etxtPhone.getText().toString();
-        String password = etxtPassword.getText().toString();
+        String password = customer.getPassword();
         String address = etxtAddress.getText().toString();
         Customer cus = new Customer(fullName, email, phone, address, password);
 

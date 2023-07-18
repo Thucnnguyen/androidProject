@@ -394,6 +394,7 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     private void AddToOrder(List<Cart_items> items, List<Product> products, int customerId) {
+
         Calendar calendar = Calendar.getInstance();
         Order order = new Order(customerId, "Processing", calendar.getTime().getTime());
         // Retrofit initialization

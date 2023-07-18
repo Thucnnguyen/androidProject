@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:name="androidx.multidex.MultiDexApplication"
         android:allowBackup="true"
@@ -28,6 +29,11 @@
         <activity
             android:name=".OrderActivity"
             android:exported="false">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
 
         <meta-data
@@ -36,6 +42,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCEYHhlbaeBGh9Lxqm5RPczxdatVgXiZS4" />
+
         <activity
             android:name=".ProfileActivity"
             android:exported="false">
@@ -84,17 +91,18 @@
 
         </activity>
 
-        <activity
-            android:name="com.paypal.pyplcheckout.home.view.activities.PYPLInitiateCheckoutActivity"
-            android:exported="true">
-            <!-- Other attributes and configurations -->
-        </activity>
+                <activity
+                    android:name="com.paypal.pyplcheckout.home.view.activities.PYPLInitiateCheckoutActivity"
+                    android:exported="true">
+                    <!-- Other attributes and configurations -->
+                </activity>
 
-        <activity
-            android:name="com.paypal.openid.RedirectUriReceiverActivity"
-            android:exported="true">
-            <!-- Other attributes and configurations -->
-        </activity>
+                <activity
+                    android:name="com.paypal.openid.RedirectUriReceiverActivity"
+                    android:exported="true">
+                    <!-- Other attributes and configurations -->
+                </activity>
+
     </application>
 
 </manifest>

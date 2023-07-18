@@ -14,13 +14,14 @@
         style="@style/button"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="170dp"
         android:background="@drawable/ic_back_black"
         android:textColor="#000"
         app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toStartOf="@+id/imageView7"
-        app:layout_constraintTop_toTopOf="@+id/imageView7" />
+        app:layout_constraintTop_toTopOf="@+id/imageView7"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/imageView5"

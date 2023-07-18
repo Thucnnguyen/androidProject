@@ -7,10 +7,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.instagram.model.Customer;
@@ -31,10 +34,13 @@ public class activity_cartlist extends AppCompatActivity {
     Customer customer = new Customer();
     int customerId;
     public List<Product> products = new ArrayList<>();
-    private Button checkOut;
+    private Button checkOut, clear;
     Toast toast;
     CartAdapter cartAdapter;
     RecyclerView rvCarts;
+
+    ImageButton back;
+
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -94,6 +100,8 @@ public class activity_cartlist extends AppCompatActivity {
         cartAdapter = new CartAdapter(context, cart_items, products);
         rvCarts.setAdapter(cartAdapter);
         checkOut = (Button) findViewById(R.id.checkout);
+        clear = (Button) findViewById(R.id.clear);
+        back = (ImageButton)findViewById(R.id.back);
         Call call = apiService.getAllProduct();
         checkOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +111,17 @@ public class activity_cartlist extends AppCompatActivity {
                 finish();
             }
         });
+        clear.setOnClickListener(v -> {
+            SharedPreferences sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
+            int cusId =sharedPreferences.getInt("customerId", -1);
+            context.DeleteCart(cart_items,cusId);
+            this.recreate();
+        });
+        back.setOnClickListener(v ->  {
+
+                onBackPressed();
+                finish();
+            });
         call.enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
@@ -165,19 +184,21 @@ public class activity_cartlist extends AppCompatActivity {
                 }
             });
         } else {
-            Call<Void> call = apiService.deleteCartItems(cart.getProductID());
+            Call<Void> call = apiService.deleteCartItems(cart.getId());
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     try {
                         if (!response.isSuccessful()) {
                             toast(response.errorBody().string());
+                            products.remove(cart);
+
                             return;
                         }
-
-                        toast("Deleted item from cart!");
-                        products.remove(cart);
+                        recreate();
                         cartAdapter.notifyDataSetChanged();
+                        toast("Deleted item from cart!");
+
                     } catch (Exception e) {
 
                     }
@@ -189,6 +210,28 @@ public class activity_cartlist extends AppCompatActivity {
                 }
             });
         }
+
+    }
+    private void DeleteCart(List<Cart_items> items, int customerId) {
+        Call<Void> call;
+        for (Cart_items item : items) {
+            if (item.getCustomerId() == customerId) {
+                call = apiService.deleteCartItemsById("" + item.getId());
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+
+                    }
+                });
+            }
+        }
+
     }
 
 //    public void CaclulateTotal() {

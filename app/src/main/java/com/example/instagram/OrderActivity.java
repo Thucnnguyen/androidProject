@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.instagram.model.Order;
+import com.example.instagram.model.OrderItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -63,9 +65,20 @@ public class OrderActivity extends AppCompatActivity {
             public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
                 if (response.isSuccessful()) {
                     List<Order> products = response.body();
-                    if (products != null ) {
+
+                    List<Order> fillterOrder = new ArrayList<>();
+
+                    for (Order item : products) {
+                        if (item.getCustomerId() == customerID) {
+                            fillterOrder.add(item);
+                        }
+                    }
+
+
+
+                    if (fillterOrder != null ) {
 //                        Log.d("TEST", String.valueOf(products.get(0).getOderStatus()));
-                        adapter.setData(products);  // Update the adapter's data
+                        adapter.setData(fillterOrder);  // Update the adapter's data
                         adapter.notifyDataSetChanged();
                     }
                 } else {
