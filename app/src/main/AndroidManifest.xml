@@ -29,11 +29,6 @@
         <activity
             android:name=".OrderActivity"
             android:exported="false">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
-
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
         </activity>
 
         <meta-data
@@ -46,17 +41,24 @@
         <activity
             android:name=".ProfileActivity"
             android:exported="false">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".EditProfileActivity"
             android:exported="false"></activity>
-
+        <activity
+            android:name=".EditPasswordActivity"
+            android:exported="false"></activity>
         <activity
             android:name=".activity_cartlist"
             android:exported="false" />
         <activity
             android:name=".PaymentActivity"
-             android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".ProductList"
             android:exported="false">
@@ -76,12 +78,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
 
 
@@ -91,17 +87,17 @@
 
         </activity>
 
-                <activity
-                    android:name="com.paypal.pyplcheckout.home.view.activities.PYPLInitiateCheckoutActivity"
-                    android:exported="true">
-                    <!-- Other attributes and configurations -->
-                </activity>
+        <activity
+            android:name="com.paypal.pyplcheckout.home.view.activities.PYPLInitiateCheckoutActivity"
+            android:exported="true">
+            <!-- Other attributes and configurations -->
+        </activity>
 
-                <activity
-                    android:name="com.paypal.openid.RedirectUriReceiverActivity"
-                    android:exported="true">
-                    <!-- Other attributes and configurations -->
-                </activity>
+        <activity
+            android:name="com.paypal.openid.RedirectUriReceiverActivity"
+            android:exported="true">
+            <!-- Other attributes and configurations -->
+        </activity>
 
     </application>
 

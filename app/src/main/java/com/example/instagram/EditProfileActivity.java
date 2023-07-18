@@ -211,7 +211,15 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     public void UpdateCustomer(View view) {
+        etxtName.setEnabled(false);
+        etxtEmail.setEnabled(false);
+        etxtAddress.setEnabled(false);
+        etxtPhone.setEnabled(false);
         if (!ValidateName() || !ValidatePhone() || !ValidateAddress() ) {
+            etxtName.setEnabled(true);
+            etxtEmail.setEnabled(true);
+            etxtAddress.setEnabled(true);
+            etxtPhone.setEnabled(true);
             return;
         }
 

@@ -37,7 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileActivity extends AppCompatActivity {
     private GoogleSignInClient googleSignInClient;
-    private Button btnReturn, btnLogout, btnEdit;
+    private Button btnReturn, btnLogout;
     private TextView txtName, txtEmail, txtAddress, txtPhone;
     private int customerId;
 
@@ -48,7 +48,6 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
 
         btnReturn = findViewById(R.id.profile_return);
-        btnEdit = findViewById(R.id.edit_profile);
         btnLogout = findViewById(R.id.logout_button);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -115,16 +114,16 @@ public class ProfileActivity extends AppCompatActivity {
                 finish();
             }
         });
-        btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("customer", (Serializable) customer);
-//                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
+//        btnEdit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+////                Bundle bundle = new Bundle();
+////                bundle.putSerializable("customer", (Serializable) customer);
+////                intent.putExtras(bundle);
+//                startActivity(intent);
+//            }
+//        });
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,9 +148,8 @@ public class ProfileActivity extends AppCompatActivity {
 
                     return true;
                 } else if (item.getItemId() == R.id.cart) {
-                    // Handle Cart item click
-//                    Intent intent = new Intent(ProductList.this, activity_cartlist.class);
-//                    startActivity(intent);
+                    Intent intent = new Intent(ProfileActivity.this, activity_cartlist.class);
+                    startActivity(intent);
                     return true;
                 }
                 return false;
@@ -177,17 +175,17 @@ public class ProfileActivity extends AppCompatActivity {
                     Intent intent = new Intent(ProfileActivity.this, EditPasswordActivity.class);
                     startActivity(intent);
                     return true;
-                } else if (item.getItemId() == R.id.profile_logout_btn) {
-//                    Intent intent = new Intent(ProfileActivity.this, Login.class);
-//                    startActivity(intent);
-//                    finish();
-                    logout();
-                    // SharedPreferences sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
-                    // sharedPreferences.edit().putBoolean("isLogin", false).apply();
-                    // Intent intent = new Intent(ProfileActivity.this, Login.class);
-                    // startActivity(intent);
-                    // finish();
-                    return true;
+//                } else if (item.getItemId() == R.id.profile_logout_btn) {
+////                    Intent intent = new Intent(ProfileActivity.this, Login.class);
+////                    startActivity(intent);
+////                    finish();
+//                    logout();
+//                    // SharedPreferences sharedPreferences = getSharedPreferences("MyApp", Context.MODE_PRIVATE);
+//                    // sharedPreferences.edit().putBoolean("isLogin", false).apply();
+//                    // Intent intent = new Intent(ProfileActivity.this, Login.class);
+//                    // startActivity(intent);
+//                    // finish();
+//                    return true;
                 } else return false;
             }
         });

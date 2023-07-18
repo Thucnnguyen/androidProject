@@ -6,8 +6,8 @@
     <item
         android:id="@+id/profile_change_password_btn"
         android:title="Change password" />
-    <item
-        android:id="@+id/profile_logout_btn"
-        android:title="Logout" />
+<!--    <item-->
+<!--        android:id="@+id/profile_logout_btn"-->
+<!--        android:title="Logout" />-->
     <!-- Add more menu items here -->
 </menu>

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,12 +29,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class EditPasswordActivity extends AppCompatActivity {
 
     private Button btnReturn, btnConfirm;
-    private EditText etxtCurrent, etxtNew, etxtConfirm;
+    private EditText etxtCurrent, etxtNew, etxtConfirm,currentPassword;
     private int customerId;
-
-    private Customer Customer;
-
-    private boolean check ;
+    private Customer customer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +69,6 @@ public class EditPasswordActivity extends AppCompatActivity {
             finish();
             return;
         }
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -88,7 +85,7 @@ public class EditPasswordActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Customer customer = response.body();
                     if (customer != null) {
-                        Customer = customer;
+                        BindingData(customer);
                     }
                 } else {
                     // Product retrieval failed, handle the failure
@@ -104,13 +101,19 @@ public class EditPasswordActivity extends AppCompatActivity {
         });
     }
 
+    private void BindingData(Customer c){
+        customer = c;
+    }
+
     private boolean ValidateCurrentPassword(EditText ext) {
         String val = ext.getText().toString();
+//        String currentPass = currentPassword.getText().toString();
+        String currentPass = customer.getPassword();
 
         if (val.isEmpty()) {
             ext.setError("Field cannot be empty");
             return false;
-        }else if (!val.equals(Customer.getPassword())) {
+        }else if (!val.equals(currentPass)) {
             ext.setError("Incorrect Password!!!!!!!");
             return false;
         } else {
@@ -142,18 +145,27 @@ public class EditPasswordActivity extends AppCompatActivity {
     }
 
     public void UpdatePassword(View view) {
+        etxtConfirm.setEnabled(false);
+        etxtCurrent.setEnabled(false);
+        etxtNew.setEnabled(false);
+        findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+        btnConfirm.setVisibility(View.GONE);
+
         if (!ValidateCurrentPassword(etxtCurrent) || !ValidatePassword(etxtNew, etxtConfirm) ) {
+            etxtConfirm.setEnabled(true);
+            etxtCurrent.setEnabled(true);
+            etxtNew.setEnabled(true);findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+            btnConfirm.setVisibility(View.VISIBLE);
             return;
         }
-
-        Customer.setPassword(etxtNew.getText().toString());
+        customer.setPassword(etxtNew.getText().toString());
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://6482d5d3f2e76ae1b95b92a6.mockapi.io/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiService apiService = retrofit.create(ApiService.class);
 
-        Call<Customer> call = apiService.update(Customer, String.valueOf(Customer.getId()));
+        Call<Customer> call = apiService.update(customer, String.valueOf(customerId));
         call.enqueue(new Callback<Customer>() {
             @Override
             public void onResponse(Call<Customer> call, Response<Customer> response) {
